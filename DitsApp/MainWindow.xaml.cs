@@ -20,9 +20,28 @@ namespace DitsApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int _minRowHeigth;
         public MainWindow()
         {
             InitializeComponent();
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+
+                var employees = from employee in db.Employees
+                                join department in db.Departments
+                                on employee.DepartmentId equals department.DepartmentId
+                                select new
+                                {
+                                    Id = employee.EmployeeId,
+                                    Lastname = employee.Lastname,
+                                    Firstname = employee.Firstname,
+                                    Middlename = employee.Middlename,
+                                    Department = department.DepartmentName
+                                };
+
+
+                EmployeeDataGrid.ItemsSource = employees.ToList();
+            }
         }
     }
 }

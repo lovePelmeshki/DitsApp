@@ -5,8 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DitsApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="EmployeeDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  HorizontalAlignment="Center" 
+                  AlternatingRowBackground="LightGray" 
+                  MinRowHeight="{Binding ElementName=slider, Path=Value, Mode=TwoWay}" 
+                  MaxWidth="1200"
+                  MinWidth="600"
+                  GridLinesVisibility="None"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department}" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="0">
+            <Slider x:Name="slider" HorizontalAlignment="Center"
+                VerticalAlignment="Top" 
+                Margin="15"
+                Orientation="Horizontal" 
+                Minimum="5"
+                Maximum="100" Height="41" Width="248"
+                Value="{Binding ElementName=textbox, Path=Text, Mode=TwoWay}"
+                TickPlacement="BottomRight"
+                TickFrequency="10"
+                Delay="500"
+                IsSnapToTickEnabled="True">
+
+            </Slider>
+            <TextBox x:Name="textbox" 
+                     Width="45" 
+                     Height="45" 
+                     Text="{Binding ElementName=slider, Path=Value,Mode=TwoWay}" />
+        </StackPanel>
+        <Button Content="OK" 
+                Grid.Row="2" 
+                Height="65" 
+                Width="180"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="10"/>
+
+
 
     </Grid>
 </Window>
