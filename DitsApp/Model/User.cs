@@ -10,5 +10,6 @@ namespace DitsApp
         public int UserId { get; set; }
         public string UserName { get; set; }
         public int? Permission { get; set; }
+        public string Hash { get; set; }
     }
 }

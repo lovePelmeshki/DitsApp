@@ -14,7 +14,7 @@ namespace DitsApp
 
         public int StationId { get; set; }
         public string StationName { get; set; }
-        public int? Line { get; set; }
+        public int Line { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
     }

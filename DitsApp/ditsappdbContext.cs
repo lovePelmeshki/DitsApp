@@ -149,31 +149,39 @@ namespace DitsApp
             {
                 entity.Property(e => e.LocationId).ValueGeneratedNever();
 
-                entity.Property(e => e.Desctiption).HasMaxLength(255);
+                entity.Property(e => e.Desctiption)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.Point).HasMaxLength(255);
+                entity.Property(e => e.Point)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Post).HasDefaultValueSql("((-1))");
 
                 entity.HasOne(d => d.Station)
                     .WithMany(p => p.Locations)
                     .HasForeignKey(d => d.StationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Locations_Stations");
             });
 
             modelBuilder.Entity<Maintenance>(entity =>
             {
-                entity.Property(e => e.MaintenanceId).ValueGeneratedNever();
-
                 entity.Property(e => e.Comment).HasColumnType("text");
 
                 entity.Property(e => e.DueDate).HasColumnType("date");
 
-                entity.Property(e => e.EquipmentId).HasMaxLength(50);
+                entity.Property(e => e.EquipmentId)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.MaintenanceDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.Maintenances)
                     .HasForeignKey(d => d.EquipmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Maintenances_Equipment");
 
                 entity.HasOne(d => d.Maintainer)
@@ -186,12 +194,16 @@ namespace DitsApp
             {
                 entity.Property(e => e.StationId).ValueGeneratedNever();
 
-                entity.Property(e => e.StationName).HasMaxLength(50);
+                entity.Property(e => e.StationName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.UserId).ValueGeneratedNever();
+
+                entity.Property(e => e.Hash).HasColumnType("text");
 
                 entity.Property(e => e.UserName).HasMaxLength(255);
             });
