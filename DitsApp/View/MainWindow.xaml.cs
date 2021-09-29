@@ -47,8 +47,8 @@ namespace DitsApp
         private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
-            var a = dataGrid.SelectedItem as EmployeeInfo;
-            var infoWindow = new EmployeeInfoWindow(a);
+            var employee = dataGrid.SelectedItem as EmployeeInfo;
+            var infoWindow = new EmployeeInfoWindow(employee);
             infoWindow.Show();
 
 
