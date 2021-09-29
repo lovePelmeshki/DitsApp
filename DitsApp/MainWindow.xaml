@@ -18,16 +18,20 @@
                   AutoGenerateColumns="False"
                   HorizontalAlignment="Center" 
                   AlternatingRowBackground="LightGray" 
-                  MinRowHeight="{Binding ElementName=slider, Path=Value, Mode=TwoWay}" 
+                  MinRowHeight="{Binding ElementName=slider, Path=Value, Mode=OneWay}" 
                   MaxWidth="1200"
                   MinWidth="600"
                   GridLinesVisibility="None"
-                  Margin="10">
+                  Margin="10"
+                  MouseDoubleClick="EmployeeDataGrid_MouseDoubleClick"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Single"
+                  >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="0">
