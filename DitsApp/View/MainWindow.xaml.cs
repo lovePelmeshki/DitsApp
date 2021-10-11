@@ -37,7 +37,7 @@ namespace DitsApp
                 EmployeeDataGrid.ItemsSource = employees.ToList();
             }
         }
-
+        //DoubleClick DataGrid
         private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
@@ -47,7 +47,7 @@ namespace DitsApp
 
 
         }
-
+        //New Event Button
         private void NewEventButton_Click(object sender, RoutedEventArgs e)
         {
             var newEventWindow = new NewEventWindow();

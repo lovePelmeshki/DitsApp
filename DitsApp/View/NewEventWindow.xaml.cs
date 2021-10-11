@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,18 @@ namespace DitsApp.View
         public NewEventWindow()
         {
             InitializeComponent();
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                DataContext = db.EventTypes.ToList();
+                var typeList = from eventType in db.EventTypes
+                               select new
+                               {
+                                   Type = eventType.EventName
+                               };
+                
+
+
+            }
         }
     }
 }

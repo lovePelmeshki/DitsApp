@@ -5,9 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DitsApp.View"
         mc:Ignorable="d"
-        Title="NewEventWindow" Height="450" Width="800">
+        Title="NewEventWindow" Width="1200" Height="800">
     <Grid>
-        <DockPanel LastChildFill="False"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Name="MainStackPanel" Orientation="Vertical" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Тип заявки" Margin="0 0 10 0" MinWidth="120" MaxWidth="200"></TextBlock>
+                <ComboBox   MinWidth="120" MaxWidth="200"
+                            ItemsSource="{Binding Type}">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Описание" Margin="0 0 10 0" MinWidth="120" MaxWidth="200"/>
+                <RichTextBox IsManipulationEnabled="True" MinHeight="30" 
+                         MaxHeight="200"
+                         MinWidth="120"
+                         MaxWidth="200"
+                         />
+            </StackPanel>
+            
+            
+        </StackPanel>
+        
 
     </Grid>
 </Window>
