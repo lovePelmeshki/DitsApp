@@ -25,7 +25,7 @@ namespace DitsApp.View
             InitializeComponent();
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                
+                //Event Type
                 var typeList = from eventType in db.EventTypes
                                select new 
                                {
@@ -34,6 +34,7 @@ namespace DitsApp.View
                                };
                 ComboBoxEventType.ItemsSource = typeList.ToList();
 
+                //Maintainer
                 var maintainerList = from maintainer in db.Employees
                                      select new
                                      {
@@ -43,6 +44,8 @@ namespace DitsApp.View
                                          Middlename = maintainer.Middlename
                                      };
                 ComboBoxMaintainer.ItemsSource = maintainerList.ToList();
+
+
             }
         }
 
@@ -55,7 +58,11 @@ namespace DitsApp.View
                 {
                     Comment = CommentTextBox.Text,
                     EventTypeId = ComboBoxEventType.SelectedValue as int?,
-                    RespoinderId = ComboBoxMaintainer.SelectedValue as int?
+                    RespoinderId = ComboBoxMaintainer.SelectedValue as int?,
+                    CreateDate = DateTime.Now,
+                    Status = 1,
+                     
+                   
                 });
                 db.SaveChanges();
             }

@@ -8,8 +8,10 @@ namespace DitsApp.Model
     public partial class Event
     {
         public int EventId { get; set; }
-        public string EquipmentId { get; set; }
         public int? EventTypeId { get; set; }
+        public int? StationId { get; set; }
+        public int? Post { get; set; }
+        public string EquipmentId { get; set; }
         public int? Status { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? CloseDate { get; set; }
