@@ -48,9 +48,13 @@ namespace DitsApp
                                           Location = loc.Point,
                                           EquipmentID = eq.EquipmentId,
                                           EquipmentType = type.TypeName,
+                                          Post = loc.Post,
                                           MaintainerLastname = emp.Lastname,
                                           MaintainerFirstname = emp.Firstname,
-                                          MaintainerMiddlenamename = emp.Middlename
+                                          MaintainerMiddlename = emp.Middlename,
+                                          Date = maintenance.MaintenanceDate,
+                                          DueDate = maintenance.DueDate,
+                                          
 
                                       };
 

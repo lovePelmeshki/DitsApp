@@ -53,15 +53,25 @@
                      Height="45" 
                      Text="{Binding ElementName=slider, Path=Value,Mode=TwoWay}" />
         </StackPanel>
-        <Button Content="OK" 
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <Button Content="OK" 
                 Grid.Row="2" 
                 Height="65" 
                 Width="180"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Margin="10"/>
-
-
+            <Button x:Name="NewEventButton" 
+                    Content="Add new event"
+                Grid.Row="2" 
+                Height="65" 
+                Width="180"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="10"
+                    Click="NewEventButton_Click"/>
+        </StackPanel>
+       
 
     </Grid>
 </Window>
