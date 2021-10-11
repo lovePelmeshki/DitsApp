@@ -70,6 +70,13 @@
                 VerticalAlignment="Top"
                 Margin="10"
                     Click="NewEventButton_Click"/>
+            <Button x:Name="BottonShowEvents"
+                    Content="Show Events"
+                    Height="65"
+                    Width="180"
+                   VerticalAlignment="Top"
+                    Margin="10" Click="BottonShowEvents_Click"
+                    />
         </StackPanel>
        
 

@@ -55,6 +55,12 @@ namespace DitsApp
             var newEventWindow = new NewEventWindow();
             newEventWindow.Show();
         }
+
+        private void BottonShowEvents_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new EventsWindow();
+            window.Show();
+        }
     }
 
 }
