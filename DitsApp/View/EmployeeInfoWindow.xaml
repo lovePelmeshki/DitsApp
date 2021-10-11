@@ -14,14 +14,19 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="1"
                   x:Name="EmployeeInfoDataGrid"
-                  AutoGenerateColumns="True">
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Path=MaintenanceId}" Width="*"/>
-                <DataGridTextColumn Header="MaintainerId" Binding="{Binding Path=MaintainerId}" Width="*"/>
-                <DataGridTextColumn Header="EquipmentId" Binding="{Binding Path=EquipmentId}" Width="*"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Path=MaintenanceDate}" Width="*"/>
-                <DataGridTextColumn Header="Next date" Binding="{Binding Path=DueDate}" Width="*"/>
-                <DataGridTextColumn Header="Comment" Binding="{Binding Path=Comment}" Width="*"/>
+                <DataGridTextColumn Header="Station" Binding="{Binding Path=Station}" Width="*"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding Path=Location}" Width="*"/>
+                <DataGridTextColumn Header="EquipmentID" Binding="{Binding Path=EquipmentID}" Width="*"/>
+                <DataGridTextColumn Header="EquipmentType" Binding="{Binding Path=EquipmentType}" Width="*"/>
+                <DataGridTextColumn Header="Post" Binding="{Binding Path=Post}" Width="*"/>
+                <DataGridTextColumn Header="MaintainerLastname" Binding="{Binding Path=MaintainerLastname}" Width="*"/>
+                <DataGridTextColumn Header="MaintainerFirstname" Binding="{Binding Path=MaintainerFirstname}" Width="*"/>
+                <DataGridTextColumn Header="MaintainerMiddlename" Binding="{Binding Path=MaintainerMiddlename}" Width="*"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Path=Date, StringFormat=dd.MM.yyyy}" Width="*"/>
+                <DataGridTextColumn Header="DueDate" Binding="{Binding Path=DueDate, StringFormat=dd.MM.yyyy}" Width="*"/>
             </DataGrid.Columns>
             
         </DataGrid>

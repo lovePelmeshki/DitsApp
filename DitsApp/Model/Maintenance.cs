@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DitsApp
+namespace DitsApp.Model
 {
     public partial class Maintenance
     {
@@ -13,6 +13,7 @@ namespace DitsApp
         public DateTime? MaintenanceDate { get; set; }
         public DateTime? DueDate { get; set; }
         public string Comment { get; set; }
+        public string Comment2 { get; set; }
 
         public virtual Equipment Equipment { get; set; }
         public virtual Employee Maintainer { get; set; }

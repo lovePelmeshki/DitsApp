@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace DitsApp
+namespace DitsApp.Model
 {
     public partial class ditsappdbContext : DbContext
     {
@@ -103,8 +103,6 @@ namespace DitsApp
 
             modelBuilder.Entity<Event>(entity =>
             {
-                entity.Property(e => e.EventId).ValueGeneratedNever();
-
                 entity.Property(e => e.CloseDate).HasColumnType("date");
 
                 entity.Property(e => e.Comment).HasColumnType("text");
@@ -169,6 +167,8 @@ namespace DitsApp
             modelBuilder.Entity<Maintenance>(entity =>
             {
                 entity.Property(e => e.Comment).HasColumnType("text");
+
+                entity.Property(e => e.Comment2).HasColumnType("text");
 
                 entity.Property(e => e.DueDate).HasColumnType("date");
 

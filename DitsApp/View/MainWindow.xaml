@@ -28,7 +28,7 @@
                   SelectionMode="Single"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>

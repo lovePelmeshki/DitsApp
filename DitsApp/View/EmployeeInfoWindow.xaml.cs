@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
+using DitsApp.Model;
+
 
 namespace DitsApp
 {
@@ -41,9 +43,9 @@ namespace DitsApp
                                         && eq.LocationId == loc.LocationId
                                         && station.StationId == loc.StationId
 
-                                      select new
+                                      select new 
                                       {
-                                          ID = maintenance.MaintenanceId,
+                                          MaintenanceId = maintenance.MaintenanceId,
                                           Station = station.StationName,
                                           Location = loc.Point,
                                           EquipmentID = eq.EquipmentId,
@@ -67,5 +69,20 @@ namespace DitsApp
         }
     }
 
-   
+    public class MaintenanceInfo
+    {
+        public int ID { get; set; }
+        public string Station { get; set; }
+        public string Location { get; set; }
+        public string EquipmentId { get; set; }
+        public string EquipmentType { get; set; }
+        public string Post { get; set; }
+        public string MaintainerLastName { get; set; }
+        public string MaintainerFirstName { get; set; }
+        public string MaintainerMiddleName { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime DueDate { get; set; }
+    }
+
+
 }

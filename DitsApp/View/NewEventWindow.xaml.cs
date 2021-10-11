@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DitsApp.Model;
 
 namespace DitsApp.View
 {
@@ -23,15 +25,39 @@ namespace DitsApp.View
             InitializeComponent();
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                DataContext = db.EventTypes.ToList();
+                
                 var typeList = from eventType in db.EventTypes
-                               select new
+                               select new 
                                {
+                                   Id = eventType.EventTypeId,
                                    Type = eventType.EventName
                                };
-                
+                ComboBoxEventType.ItemsSource = typeList.ToList();
+
+                var maintainerList = from maintainer in db.Employees
+                                     select new
+                                     {
+                                         Id = maintainer.EmployeeId,
+                                         Lastname = maintainer.Lastname,
+                                         Firstname = maintainer.Firstname,
+                                         Middlename = maintainer.Middlename
+                                     };
+                ComboBoxMaintainer.ItemsSource = maintainerList.ToList();
+            }
+        }
 
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           using (ditsappdbContext db = new ditsappdbContext())
+            {
+                db.Events.Add(new Event
+                {
+                    Comment = CommentTextBox.Text,
+                    EventTypeId = ComboBoxEventType.SelectedValue as int?,
+                    RespoinderId = ComboBoxMaintainer.SelectedValue as int?
+                });
+                db.SaveChanges();
             }
         }
     }

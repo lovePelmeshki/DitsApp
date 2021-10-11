@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DitsApp
+namespace DitsApp.Model
 {
     public partial class Employee
     {

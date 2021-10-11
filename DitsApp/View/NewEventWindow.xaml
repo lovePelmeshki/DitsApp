@@ -14,23 +14,73 @@
         </Grid.RowDefinitions>
         <StackPanel Name="MainStackPanel" Orientation="Vertical" Grid.Row="1">
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Тип заявки" Margin="0 0 10 0" MinWidth="120" MaxWidth="200"></TextBlock>
-                <ComboBox   MinWidth="120" MaxWidth="200"
-                            ItemsSource="{Binding Type}">
+                <TextBlock Text="Тип заявки" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+                <ComboBox x:Name="ComboBoxEventType"  
+                          MinWidth="120" 
+                          MaxWidth="200"
+                          DisplayMemberPath="Type" SelectedValuePath="Id"
+                          ItemsSource="{Binding Type}">
                 </ComboBox>
             </StackPanel>
+
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Описание" Margin="0 0 10 0" MinWidth="120" MaxWidth="200"/>
-                <RichTextBox IsManipulationEnabled="True" MinHeight="30" 
-                         MaxHeight="200"
-                         MinWidth="120"
-                         MaxWidth="200"
-                         />
+                <TextBlock Text="Исполнитель" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+                <ComboBox x:Name="ComboBoxMaintainer"  
+                          MinWidth="120" 
+                          MaxWidth="200"
+                          SelectedValuePath="Id"
+                          ItemsSource="{Binding Type}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding  StringFormat="{}{0} {1} {2}">
+                                            <Binding Path="Lastname"/>
+                                            <Binding Path="Firstname"/>
+                                            <Binding Path="Middlename"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                    
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
-            
-            
+
+            <StackPanel Orientation="Horizontal" 
+                        Margin="10">
+                <TextBlock Text="Описание" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120" 
+                           MaxWidth="200"/>
+                <TextBox x:Name="CommentTextBox"       
+                             IsManipulationEnabled="True"
+                             MinHeight="30"
+                             MaxHeight="200"
+                             MinWidth="120"
+                             MaxWidth="200"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button Click="Button_Click" Width="120" Height="40" Content="OK" >
+
+                </Button>
+            </StackPanel>
+
+
+
         </StackPanel>
-        
+
 
     </Grid>
 </Window>

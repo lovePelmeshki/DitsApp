@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DitsApp.Model;
+
 
 
 namespace DitsApp
@@ -64,6 +66,7 @@ namespace DitsApp
         public string Department { get; set; }
 
     }
+
 }
 
 
