@@ -26,23 +26,25 @@
                           ItemsSource="{Binding Type}">
                 </ComboBox>
             </StackPanel>
+            
+            <!--Station-->
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Станция" 
                            Margin="0 0 10 0" 
                            MinWidth="120"
                            MaxWidth="200">
                 </TextBlock>
+
                 <ComboBox x:Name="ComboBoxStation"  
                           MinWidth="120" 
                           MaxWidth="200"
-                          SelectedValuePath="Id"
-                          ItemsSource="{Binding Type}">
+                          SelectedValuePath="Id" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Border>
                                 <TextBlock>
                                     <TextBlock.Text>
-                                        <MultiBinding  StringFormat="{}{0} {1} {2}">
+                                        <MultiBinding  StringFormat="{}{0} {1}">
                                             <Binding Path="Line"/>
                                             <Binding Path="StationName"/>
                                         </MultiBinding>
@@ -52,8 +54,6 @@
                             </Border>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-
-
                 </ComboBox>
             </StackPanel>
             
@@ -68,7 +68,7 @@
                           MinWidth="120" 
                           MaxWidth="200"
                           SelectedValuePath="Id"
-                          ItemsSource="{Binding Type}">
+                          IsTextSearchEnabled="True">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Border>

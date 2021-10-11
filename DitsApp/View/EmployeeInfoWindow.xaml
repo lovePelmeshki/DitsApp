@@ -13,7 +13,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="1"
-                  x:Name="EmployeeInfoDataGrid"
+                  x:Name="EmployeeMaintenanceInfoDataGrid"
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Path=MaintenanceId}" Width="*"/>
@@ -28,6 +28,11 @@
                 <DataGridTextColumn Header="Date" Binding="{Binding Path=Date, StringFormat=dd.MM.yyyy}" Width="*"/>
                 <DataGridTextColumn Header="DueDate" Binding="{Binding Path=DueDate, StringFormat=dd.MM.yyyy}" Width="*"/>
             </DataGrid.Columns>
+            
+        </DataGrid>
+
+        <DataGrid Grid.Row="2"
+                  x:Name="DataGridEmployeeEventInfo">
             
         </DataGrid>
         

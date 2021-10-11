@@ -45,6 +45,14 @@ namespace DitsApp.View
                                      };
                 ComboBoxMaintainer.ItemsSource = maintainerList.ToList();
 
+                var stationList = from station in db.Stations
+                                  select new
+                                  {
+                                      Id = station.StationId,
+                                      StationName = station.StationName,
+                                      Line = station.Line
+                                  };
+                ComboBoxStation.ItemsSource = stationList.ToList();
 
             }
         }
@@ -59,12 +67,13 @@ namespace DitsApp.View
                     Comment = CommentTextBox.Text,
                     EventTypeId = ComboBoxEventType.SelectedValue as int?,
                     RespoinderId = ComboBoxMaintainer.SelectedValue as int?,
+                    StationId = ComboBoxStation.SelectedValue as int?,
                     CreateDate = DateTime.Now,
                     Status = 1,
-                     
-                   
                 });
+
                 db.SaveChanges();
+                this.Close();
             }
         }
     }

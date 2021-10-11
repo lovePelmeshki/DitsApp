@@ -56,11 +56,9 @@ namespace DitsApp
                                           MaintainerMiddlename = emp.Middlename,
                                           Date = maintenance.MaintenanceDate,
                                           DueDate = maintenance.DueDate,
-                                          
-
                                       };
 
-                EmployeeInfoDataGrid.ItemsSource = maintenanceInfo.ToList();
+                EmployeeMaintenanceInfoDataGrid.ItemsSource = maintenanceInfo.ToList();
             }
             
 
@@ -69,20 +67,7 @@ namespace DitsApp
         }
     }
 
-    public class MaintenanceInfo
-    {
-        public int ID { get; set; }
-        public string Station { get; set; }
-        public string Location { get; set; }
-        public string EquipmentId { get; set; }
-        public string EquipmentType { get; set; }
-        public string Post { get; set; }
-        public string MaintainerLastName { get; set; }
-        public string MaintainerFirstName { get; set; }
-        public string MaintainerMiddleName { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime DueDate { get; set; }
-    }
+ 
 
 
 }
