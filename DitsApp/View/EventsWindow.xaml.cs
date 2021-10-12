@@ -17,40 +17,20 @@ namespace DitsApp.View
                 //НЕ РАБОТАЕТ
                 //Переписать LINQ
 
-                //var eventList = from e in db.Events
-                //                from eType in db.EquipmentTypes
-                //                join type in db.EventTypes
-                //                on e.EventTypeId equals type.EventTypeId
+                var queryEvents = from e in db.Events
+                                  join eventType in db.EventTypes
+                                  on e.EventTypeId equals eventType.EventTypeId
+                                  join station in db.Stations
+                                  on e.StationId equals station.StationId
 
-                //                join station in db.Stations
-                //                on e.StationId equals station.StationId
-
-                //                join responder in db.Employees
-                //                on e.RespoinderId equals responder.EmployeeId
-
-                //                join creator in db.Employees
-                //                on e.CreatorId equals creator.EmployeeId
-
-                //                join equipmentType in db.EquipmentTypes
-                //                on  eType.TypeId equals equipmentType.TypeId
-                                
-                //                select new
-                //                {
-                //                    Id = e.EventId,
-                //                    Type = type.EventName,
-                //                    Station = station.StationName,
-                //                    Post = e.Post,
-                //                    EquipmentType = equipmentType.TypeName, 
-                //                    EqupmentId = e.EquipmentId,
-                //                    Status = e.Status,
-                //                    CreateDate = e.CreateDate,
-                //                    CloseDate = e.CloseDate,
-                //                    RespondDate = e.RespondDate,
-                //                    Respoinder = responder.Lastname,
-                //                    Creator = creator.Lastname,
-                //                    Comment = e.Comment
-                //                };
-                //DataGridEvents.ItemsSource = eventList.ToList();
+                                  select new
+                                  {
+                                      Id = e.EventId,
+                                      Line = station.Line,
+                                      Station = station.StationName,
+                                      Type = eventType.EventName
+                                  };
+                DataGridEvents.ItemsSource = queryEvents.ToList();
             }
         }
     }

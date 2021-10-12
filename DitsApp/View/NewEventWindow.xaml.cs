@@ -26,16 +26,16 @@ namespace DitsApp.View
             using (ditsappdbContext db = new ditsappdbContext())
             {
                 //Event Type
-                var typeList = from eventType in db.EventTypes
+                var queryEventTypes = from eventType in db.EventTypes
                                select new 
                                {
                                    Id = eventType.EventTypeId,
                                    Type = eventType.EventName
                                };
-                ComboBoxEventType.ItemsSource = typeList.ToList();
+                ComboBoxEventType.ItemsSource = queryEventTypes.ToList();
 
                 //Maintainer
-                var maintainerList = from maintainer in db.Employees
+                var queryMaintainers = from maintainer in db.Employees
                                      select new
                                      {
                                          Id = maintainer.EmployeeId,
@@ -43,16 +43,16 @@ namespace DitsApp.View
                                          Firstname = maintainer.Firstname,
                                          Middlename = maintainer.Middlename
                                      };
-                ComboBoxMaintainer.ItemsSource = maintainerList.ToList();
+                ComboBoxMaintainer.ItemsSource = queryMaintainers.ToList();
 
-                var stationList = from station in db.Stations
+                var queryStations = from station in db.Stations
                                   select new
                                   {
                                       Id = station.StationId,
                                       StationName = station.StationName,
                                       Line = station.Line
                                   };
-                ComboBoxStation.ItemsSource = stationList.ToList();
+                ComboBoxStation.ItemsSource = queryStations.ToList();
 
             }
         }

@@ -29,7 +29,7 @@ namespace DitsApp
             InitializeComponent();
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                var maintenanceInfo = from maintenance in db.Maintenances
+                var queryMaintenanceInfo = from maintenance in db.Maintenances
                                       from emp in db.Employees
                                       from eq in db.Equipment
                                       from type in db.EquipmentTypes
@@ -58,7 +58,7 @@ namespace DitsApp
                                           DueDate = maintenance.DueDate,
                                       };
 
-                EmployeeMaintenanceInfoDataGrid.ItemsSource = maintenanceInfo.ToList();
+                EmployeeMaintenanceInfoDataGrid.ItemsSource = queryMaintenanceInfo.ToList();
             }
             
 

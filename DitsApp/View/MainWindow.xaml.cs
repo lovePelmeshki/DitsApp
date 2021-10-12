@@ -23,7 +23,7 @@ namespace DitsApp
             using (ditsappdbContext db = new ditsappdbContext())
             {
 
-                var employees = from employee in db.Employees
+                var queryAllEmployees = from employee in db.Employees
                                 join department in db.Departments
                                 on employee.DepartmentId equals department.DepartmentId
                                 select new EmployeeInfo()
@@ -36,7 +36,7 @@ namespace DitsApp
                                 };
 
 
-                EmployeeDataGrid.ItemsSource = employees.ToList();
+                EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
             }
         }
         //DoubleClick DataGrid
