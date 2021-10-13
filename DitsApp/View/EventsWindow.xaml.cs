@@ -28,7 +28,8 @@ namespace DitsApp.View
                                       Id = e.EventId,
                                       Line = station.Line,
                                       Station = station.StationName,
-                                      Type = eventType.EventName
+                                      Type = eventType.EventName,
+                                      
                                   };
                 DataGridEvents.ItemsSource = queryEvents.ToList();
             }
