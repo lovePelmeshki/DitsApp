@@ -24,8 +24,10 @@ namespace DitsApp.Model
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<Line> Lines { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Maintenance> Maintenances { get; set; }
+        public virtual DbSet<Point> Points { get; set; }
         public virtual DbSet<Station> Stations { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -143,24 +145,22 @@ namespace DitsApp.Model
                 entity.Property(e => e.EventName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Line>(entity =>
+            {
+                entity.Property(e => e.LineId).ValueGeneratedNever();
+
+                entity.Property(e => e.LineName).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Location>(entity =>
             {
                 entity.Property(e => e.LocationId).ValueGeneratedNever();
 
-                entity.Property(e => e.Desctiption)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Point)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Post).HasDefaultValueSql("((-1))");
+                entity.Property(e => e.LocationName).HasMaxLength(255);
 
                 entity.HasOne(d => d.Station)
                     .WithMany(p => p.Locations)
                     .HasForeignKey(d => d.StationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Locations_Stations");
             });
 
@@ -190,13 +190,29 @@ namespace DitsApp.Model
                     .HasConstraintName("FK_Maintenances_Employees");
             });
 
+            modelBuilder.Entity<Point>(entity =>
+            {
+                entity.Property(e => e.PointId).ValueGeneratedNever();
+
+                entity.Property(e => e.PointName).HasMaxLength(255);
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Points)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Points_Locations");
+            });
+
             modelBuilder.Entity<Station>(entity =>
             {
-                entity.Property(e => e.StationId).ValueGeneratedNever();
-
                 entity.Property(e => e.StationName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Line)
+                    .WithMany(p => p.Stations)
+                    .HasForeignKey(d => d.LineId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Stations_Lines");
             });
 
             modelBuilder.Entity<User>(entity =>

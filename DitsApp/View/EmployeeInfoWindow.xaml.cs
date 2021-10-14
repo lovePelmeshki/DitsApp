@@ -47,10 +47,9 @@ namespace DitsApp
                                       {
                                           MaintenanceId = maintenance.MaintenanceId,
                                           Station = station.StationName,
-                                          Location = loc.Point,
+                                          Location = loc.LocationName,
                                           EquipmentID = eq.EquipmentId,
                                           EquipmentType = type.TypeName,
-                                          Post = loc.Post,
                                           MaintainerLastname = emp.Lastname,
                                           MaintainerFirstname = emp.Firstname,
                                           MaintainerMiddlename = emp.Middlename,

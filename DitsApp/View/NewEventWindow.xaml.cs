@@ -20,6 +20,7 @@ namespace DitsApp.View
     /// </summary>
     public partial class NewEventWindow : Window
     {
+        int selectedStationId;
         public NewEventWindow()
         {
             InitializeComponent();
@@ -54,6 +55,12 @@ namespace DitsApp.View
                                   };
                 ComboBoxStation.ItemsSource = queryStations.ToList();
 
+                
+
+               //заполнить комбобокс для постов, чтобы при выборе станции выпадал список с постами станции
+               //Пост - это столбец в таблице LOCATION
+               //сделать то же самое для оборудования
+
             }
         }
 
@@ -75,6 +82,25 @@ namespace DitsApp.View
                 db.SaveChanges();
                 this.Close();
             }
+        }
+
+        private void ComboBoxStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                selectedStationId = (int)ComboBoxStation.SelectedValue;
+                var queryLocations = from station in db.Stations
+                                     join location in db.Locations
+                                     on station.StationId equals location.StationId
+                                     where station.StationId == selectedStationId
+                                     select new
+                                     {
+                                         Id = location.LocationId,
+                                         Post = location.LocationName
+                                     };
+                ComboBoxPost.ItemsSource = queryLocations.ToList();
+            }
+            
         }
     }
 }

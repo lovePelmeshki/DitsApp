@@ -1,6 +1,6 @@
 ﻿using DitsApp.Model;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 
 namespace DitsApp.View
 {
@@ -22,16 +22,22 @@ namespace DitsApp.View
                                   on e.EventTypeId equals eventType.EventTypeId
                                   join station in db.Stations
                                   on e.StationId equals station.StationId
+                                  join location in db.Locations
+                                  on e.StationId equals location.StationId
+
+
 
                                   select new
                                   {
                                       Id = e.EventId,
+                                      Type = eventType.EventName,
                                       Line = station.Line,
                                       Station = station.StationName,
-                                      Type = eventType.EventName,
-                                      
+                                      Location = location.LocationName
                                   };
                 DataGridEvents.ItemsSource = queryEvents.ToList();
+
+              
             }
         }
     }

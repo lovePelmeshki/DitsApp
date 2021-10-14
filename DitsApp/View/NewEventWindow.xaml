@@ -38,7 +38,7 @@
                 <ComboBox x:Name="ComboBoxStation"  
                           MinWidth="120" 
                           MaxWidth="200"
-                          SelectedValuePath="Id" >
+                          SelectedValuePath="Id" SelectionChanged="ComboBoxStation_SelectionChanged" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Border>
@@ -56,8 +56,25 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-            
 
+            <!--POST-->
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Пост" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+
+                <ComboBox x:Name="ComboBoxPost"  
+                          MinWidth="120" 
+                          MaxWidth="200"
+                          SelectedValuePath="Id"
+                          DisplayMemberPath="Post">
+                    
+                </ComboBox>
+            </StackPanel>
+
+            <!--Maintainer-->
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Исполнитель" 
                            Margin="0 0 10 0" 
