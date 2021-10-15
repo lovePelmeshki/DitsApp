@@ -58,6 +58,12 @@ namespace DitsApp
                                       };
 
                 EmployeeMaintenanceInfoDataGrid.ItemsSource = queryMaintenanceInfo.ToList();
+
+                var queryEventsInfo = from ev in db.Events
+                                      from emp in db.Employees
+                                      where ev.RespoinderId == employee.Id
+                                      select ev;
+                DataGridEmployeeEventInfo.ItemsSource = queryEventsInfo.ToList();
             }
             
 

@@ -22,7 +22,8 @@ namespace DitsApp
             InitializeComponent();
             using (ditsappdbContext db = new ditsappdbContext())
             {
-
+                //employee 
+                #region Запрос Employees
                 var queryAllEmployees = from employee in db.Employees
                                 join department in db.Departments
                                 on employee.DepartmentId equals department.DepartmentId
@@ -34,9 +35,48 @@ namespace DitsApp
                                     Middlename = employee.Middlename,
                                     Department = department.DepartmentName
                                 };
-
-
                 EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
+                #endregion
+
+                //Equipment 
+                #region Запрос Equipment
+
+                var queryEquipment = from equipment in db.Equipment
+                                     select equipment;
+                DataGridEquipment.ItemsSource = queryEquipment.ToList();
+                #endregion
+
+                //Events 
+                #region Запрос Events
+                //Events DataGrid
+                var queryEvents = from e in db.Events
+                                  join eventType in db.EventTypes
+                                  on e.EventTypeId equals eventType.EventTypeId
+                                  join station in db.Stations
+                                  on e.StationId equals station.StationId
+                                  join location in db.Locations
+                                  on e.StationId equals location.StationId
+                                  join line in db.Lines
+                                  on station.LineId equals line.LineId
+                                  orderby e.EventId
+                                  select new
+                                  {
+                                      Id = e.EventId,
+                                      Type = eventType.EventName,
+                                      Line = line.LineName,
+                                      Station = station.StationName,
+                                      Location = location.LocationName
+                                  };
+                DataGridEvents.ItemsSource = queryEvents.ToList();
+                #endregion
+
+                //Maintenances
+                #region Запрос Maintenances
+                var queryMaintenances = from m in db.Maintenances
+                                        select m;
+                MaintenancesDataGrid.ItemsSource = queryMaintenances.ToList();
+                #endregion
+
             }
         }
         //DoubleClick DataGrid
@@ -49,23 +89,57 @@ namespace DitsApp
 
 
         }
-        //New Event Button
+
+        //Добавить новый Event
         private void NewEventButton_Click(object sender, RoutedEventArgs e)
         {
             var newEventWindow = new NewEventWindow();
             newEventWindow.Show();
         }
 
-        private void BottonShowEvents_Click(object sender, RoutedEventArgs e)
+        //Открыть окно Add New Equipment
+        private void ButtonAddEquipment_Click(object sender, RoutedEventArgs e)
         {
-            var window = new EventsWindow();
+            var window = new NewEquipmentWindow();
             window.Show();
         }
 
-        private void BottonShowEquipment_Click(object sender, RoutedEventArgs e)
+        //Открыть окно Add New Event
+        private void AddNewEventButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new EquipmentWindow();
+            var window = new NewEventWindow();
             window.Show();
+        }
+
+        //Обновить DataGrid Events DataSource
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Обновление происходит через повторный запрос к БД
+            //ПЕРЕДЕЛАТЬ
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var queryEvents = from ev in db.Events
+                                  join eventType in db.EventTypes
+                                  on ev.EventTypeId equals eventType.EventTypeId
+                                  join station in db.Stations
+                                  on ev.StationId equals station.StationId
+                                  join location in db.Locations
+                                  on ev.StationId equals location.StationId
+                                  join line in db.Lines
+                                  on station.LineId equals line.LineId
+                                  orderby ev.EventId
+                                  select new
+                                  {
+                                      Id = ev.EventId,
+                                      Type = eventType.EventName,
+                                      Line = line.LineName,
+                                      Station = station.StationName,
+                                      Location = location.LocationName
+                                  };
+                DataGridEvents.ItemsSource = queryEvents.ToList();
+            }
+
+
         }
     }
 

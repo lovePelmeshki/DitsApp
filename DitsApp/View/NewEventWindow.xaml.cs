@@ -64,7 +64,7 @@ namespace DitsApp.View
             }
         }
 
-
+        //Вносить изменения в базу данных при нажатии на кнопку ОК
         private void Button_Click(object sender, RoutedEventArgs e)
         {
            using (ditsappdbContext db = new ditsappdbContext())
@@ -80,10 +80,14 @@ namespace DitsApp.View
                 });
 
                 db.SaveChanges();
+
                 this.Close();
             }
         }
 
+
+        //При выборе станции в ComboBox Station менять ItemSource ComboBox Post, чтобы увидеть список Location 
+        //для выбранной станции
         private void ComboBoxStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             using (ditsappdbContext db = new ditsappdbContext())
