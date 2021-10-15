@@ -53,15 +53,16 @@
                      Height="45" 
                      Text="{Binding ElementName=slider, Path=Value,Mode=TwoWay}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-            <Button Content="OK" 
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                <Button Content="OK" 
                 Grid.Row="2" 
                 Height="65" 
                 Width="180"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Margin="10"/>
-            <Button x:Name="NewEventButton" 
+                <Button x:Name="NewEventButton" 
                     Content="Add new event"
                 Grid.Row="2" 
                 Height="65" 
@@ -70,14 +71,26 @@
                 VerticalAlignment="Top"
                 Margin="10"
                     Click="NewEventButton_Click"/>
-            <Button x:Name="BottonShowEvents"
+                <Button x:Name="BottonShowEvents"
                     Content="Show Events"
                     Height="65"
                     Width="180"
                    VerticalAlignment="Top"
                     Margin="10" Click="BottonShowEvents_Click"
                     />
+            </StackPanel>
+            
+            <StackPanel >
+                <Button x:Name="BottonShowEquipment"
+                    Content="Show Equipment"
+                    Height="65"
+                    Width="180"
+                   VerticalAlignment="Top"
+                    Margin="10" Click="BottonShowEquipment_Click"
+                    />
+            </StackPanel>
         </StackPanel>
+        
        
 
     </Grid>

@@ -20,10 +20,13 @@ namespace DitsApp.View
                 var queryEvents = from e in db.Events
                                   join eventType in db.EventTypes
                                   on e.EventTypeId equals eventType.EventTypeId
+                                 
                                   join station in db.Stations
                                   on e.StationId equals station.StationId
                                   join location in db.Locations
                                   on e.StationId equals location.StationId
+                                  join line in db.Lines
+                                  on station.LineId equals line.LineId
 
 
 
@@ -31,7 +34,7 @@ namespace DitsApp.View
                                   {
                                       Id = e.EventId,
                                       Type = eventType.EventName,
-                                      Line = station.Line,
+                                      Line = line.LineName,
                                       Station = station.StationName,
                                       Location = location.LocationName
                                   };

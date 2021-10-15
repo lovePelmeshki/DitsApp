@@ -61,8 +61,15 @@ namespace DitsApp
             var window = new EventsWindow();
             window.Show();
         }
+
+        private void BottonShowEquipment_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new EquipmentWindow();
+            window.Show();
+        }
     }
 
 }
 
 
+ 
