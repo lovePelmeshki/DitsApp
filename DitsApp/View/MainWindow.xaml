@@ -160,6 +160,13 @@
                         Margin="474,20,537,0" Grid.Column="1"/>
             </Grid>
         </TabItem>
+        
+        <!--Stations-->
+        <TabItem Header="Stations" Width="120" Height="40">
+            <DataGrid x:Name="DataGridStations" Margin="20">
+                
+            </DataGrid>
+        </TabItem>
     </TabControl>
 
 </Window>

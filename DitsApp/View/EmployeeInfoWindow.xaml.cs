@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
 using DitsApp.Model;
-
+using DitsApp.View;
 
 namespace DitsApp
 {
@@ -60,15 +60,36 @@ namespace DitsApp
                 EmployeeMaintenanceInfoDataGrid.ItemsSource = queryMaintenanceInfo.ToList();
 
                 var queryEventsInfo = from ev in db.Events
-                                      from emp in db.Employees
+                                      join evType in db.EventTypes
+                                      on ev.EventTypeId equals evType.EventTypeId
+                                      join station in db.Stations
+                                      on ev.StationId equals station.StationId
+
+                                      join location in db.Locations
+                                      on ev.LocationId equals location.LocationId into ls
+                                      from location in ls.DefaultIfEmpty()
                                       where ev.RespoinderId == employee.Id
-                                      select ev;
+                                      select new
+                                      {
+                                          Id = ev.EventId,
+                                          Type = evType.EventName,
+                                          Station = station.StationName,
+                                          Location = location == null ? "---" : location.LocationName
+                                      };
                 DataGridEmployeeEventInfo.ItemsSource = queryEventsInfo.ToList();
             }
             
 
             
 
+        }
+
+        private void DataGridEmployeeEventInfo_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            var selectedEventId = (int)dataGrid.SelectedValue;
+            var window = new EventCard(selectedEventId);
+            window.Show();
         }
     }
 

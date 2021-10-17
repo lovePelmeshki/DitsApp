@@ -93,6 +93,12 @@ namespace DitsApp
                 MaintenancesDataGrid.ItemsSource = queryMaintenances.ToList();
                 #endregion
 
+                //Stations
+                #region Запрос Stations
+                var queryStations = from station in db.Stations
+                                    select station;
+                DataGridStations.ItemsSource = queryStations.ToList();
+                #endregion
             }
         }
         //DoubleClick DataGrid
