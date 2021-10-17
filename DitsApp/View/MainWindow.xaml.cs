@@ -1,11 +1,10 @@
-﻿using DitsApp.View;
-using System;
+﻿using DitsApp.Model;
+using DitsApp.View;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DitsApp.Model;
 
 
 
@@ -25,16 +24,16 @@ namespace DitsApp
                 //employee 
                 #region Запрос Employees
                 var queryAllEmployees = from employee in db.Employees
-                                join department in db.Departments
-                                on employee.DepartmentId equals department.DepartmentId
-                                select new EmployeeInfo()
-                                {
-                                    Id = employee.EmployeeId,
-                                    Lastname = employee.Lastname,
-                                    Firstname = employee.Firstname,
-                                    Middlename = employee.Middlename,
-                                    Department = department.DepartmentName
-                                };
+                                        join department in db.Departments
+                                        on employee.DepartmentId equals department.DepartmentId
+                                        select new EmployeeInfo()
+                                        {
+                                            Id = employee.EmployeeId,
+                                            Lastname = employee.Lastname,
+                                            Firstname = employee.Firstname,
+                                            Middlename = employee.Middlename,
+                                            Department = department.DepartmentName
+                                        };
                 EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
                 #endregion
 
@@ -71,7 +70,19 @@ namespace DitsApp
                 var queryEvents = from ev in db.Events
                                   join evType in db.EventTypes
                                   on ev.EventTypeId equals evType.EventTypeId
-                                  select ev;
+                                  join station in db.Stations
+                                  on ev.StationId equals station.StationId
+
+                                  join location in db.Locations
+                                  on ev.LocationId equals location.LocationId into ls
+                                  from location in ls.DefaultIfEmpty()
+                                  select new
+                                  {
+                                      Id = ev.EventId,
+                                      Type = evType.EventName,
+                                      Station = station.StationName,
+                                      Location = location == null? "---" : location.LocationName
+                                  };
                 DataGridEvents.ItemsSource = queryEvents.ToList();
                 #endregion
 
@@ -124,22 +135,20 @@ namespace DitsApp
             using (ditsappdbContext db = new ditsappdbContext())
             {
                 var queryEvents = from ev in db.Events
-                                  join eventType in db.EventTypes
-                                  on ev.EventTypeId equals eventType.EventTypeId
+                                  join evType in db.EventTypes
+                                  on ev.EventTypeId equals evType.EventTypeId
                                   join station in db.Stations
                                   on ev.StationId equals station.StationId
+
                                   join location in db.Locations
-                                  on ev.StationId equals location.StationId
-                                  join line in db.Lines
-                                  on station.LineId equals line.LineId
-                                  orderby ev.EventId
+                                  on ev.LocationId equals location.LocationId into ls
+                                  from location in ls.DefaultIfEmpty()
                                   select new
                                   {
                                       Id = ev.EventId,
-                                      Type = eventType.EventName,
-                                      Line = line.LineName,
+                                      Type = evType.EventName,
                                       Station = station.StationName,
-                                      Location = location.LocationName
+                                      Location = location == null ? "---" : location.LocationName
                                   };
                 DataGridEvents.ItemsSource = queryEvents.ToList();
             }
@@ -151,4 +160,3 @@ namespace DitsApp
 }
 
 
- 
