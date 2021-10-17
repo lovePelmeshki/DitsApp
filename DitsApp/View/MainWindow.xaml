@@ -1,4 +1,4 @@
-﻿<Window x:Class="DitsApp.MainWindow"
+﻿<Page x:Class="DitsApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DitsApp"
         mc:Ignorable="d"
         Title="MainWindow" Width="1200" Height="800">
+
     <TabControl>
 
         <!--Employees-->
@@ -169,4 +170,4 @@
         </TabItem>
     </TabControl>
 
-</Window>
+</Page>
