@@ -133,6 +133,7 @@ namespace DitsApp.Model
                 entity.HasOne(d => d.EventType)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.EventTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Events_EventTypes");
 
                 entity.HasOne(d => d.Location)

@@ -26,7 +26,23 @@
                           ItemsSource="{Binding Type}">
                 </ComboBox>
             </StackPanel>
-            
+
+            <!--Line-->
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Линия" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+
+                <ComboBox x:Name="ComboBoxLine"  
+                          MinWidth="120" 
+                          MaxWidth="200"
+                          SelectedValuePath="Id" 
+                          DisplayMemberPath="Name" SelectionChanged="ComboBoxLine_SelectionChanged">
+                          
+                </ComboBox>
+            </StackPanel>
             <!--Station-->
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Станция" 
@@ -38,22 +54,9 @@
                 <ComboBox x:Name="ComboBoxStation"  
                           MinWidth="120" 
                           MaxWidth="200"
-                          SelectedValuePath="Id" SelectionChanged="ComboBoxStation_SelectionChanged" >
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock>
-                                    <TextBlock.Text>
-                                        <MultiBinding  StringFormat="{}{0} {1}">
-                                            <Binding Path="Line"/>
-                                            <Binding Path="StationName"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-
-                                </TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                          SelectedValuePath="Id" SelectionChanged="ComboBoxStation_SelectionChanged" 
+                          DisplayMemberPath="Name">
+                        
                 </ComboBox>
             </StackPanel>
 
@@ -85,7 +88,8 @@
                           MinWidth="120" 
                           MaxWidth="200"
                           SelectedValuePath="Id"
-                          IsTextSearchEnabled="True">
+                          IsTextSearchEnabled="True"
+                          >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Border>
