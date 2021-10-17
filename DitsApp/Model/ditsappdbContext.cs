@@ -112,7 +112,7 @@ namespace DitsApp.Model
             {
                 entity.Property(e => e.CloseDate).HasColumnType("date");
 
-                entity.Property(e => e.Comment).HasColumnType("text");
+                entity.Property(e => e.Comment).HasColumnType("ntext");
 
                 entity.Property(e => e.CreateDate).HasColumnType("date");
 

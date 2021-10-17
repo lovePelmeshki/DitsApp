@@ -155,6 +155,14 @@ namespace DitsApp
 
 
         }
+
+        private void DataGridEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            var selectedEventId = (int)dataGrid.SelectedValue;
+            var window = new EventCard(selectedEventId);
+            window.Show();
+        }
     }
 
 }
