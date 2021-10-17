@@ -49,24 +49,29 @@ namespace DitsApp
                 //Events 
                 #region Запрос Events
                 //Events DataGrid
-                var queryEvents = from e in db.Events
-                                  join eventType in db.EventTypes
-                                  on e.EventTypeId equals eventType.EventTypeId
-                                  join station in db.Stations
-                                  on e.StationId equals station.StationId
-                                  join location in db.Locations
-                                  on e.StationId equals location.StationId
-                                  join line in db.Lines
-                                  on station.LineId equals line.LineId
-                                  orderby e.EventId
-                                  select new
-                                  {
-                                      Id = e.EventId,
-                                      Type = eventType.EventName,
-                                      Line = line.LineName,
-                                      Station = station.StationName,
-                                      Location = location.LocationName
-                                  };
+                //var queryEvents = from e in db.Events
+                //                  join eventType in db.EventTypes
+                //                  on e.EventTypeId equals eventType.EventTypeId
+                //                  join station in db.Stations
+                //                  on e.StationId equals station.StationId
+                //                  join location in db.Locations
+                //                  on e.StationId equals location.StationId
+                //                  join line in db.Lines
+                //                  on station.LineId equals line.LineId
+                //                  orderby e.EventId
+                //                  select new
+                //                  {
+                //                      Id = e.EventId,
+                //                      Type = eventType.EventName,
+                //                      Line = line.LineName,
+                //                      Station = station.StationName,
+                //                      Location = location.LocationName
+                //                  };
+
+                var queryEvents = from ev in db.Events
+                                  join evType in db.EventTypes
+                                  on ev.EventTypeId equals evType.EventTypeId
+                                  select ev;
                 DataGridEvents.ItemsSource = queryEvents.ToList();
                 #endregion
 

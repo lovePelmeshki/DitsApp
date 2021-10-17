@@ -10,7 +10,7 @@ namespace DitsApp.Model
         public int EventId { get; set; }
         public int? EventTypeId { get; set; }
         public int? StationId { get; set; }
-        public int? Post { get; set; }
+        public int? LocationId { get; set; }
         public string EquipmentId { get; set; }
         public int? Status { get; set; }
         public DateTime? CreateDate { get; set; }
@@ -23,6 +23,7 @@ namespace DitsApp.Model
         public virtual Employee Creator { get; set; }
         public virtual Equipment Equipment { get; set; }
         public virtual EventType EventType { get; set; }
+        public virtual Location Location { get; set; }
         public virtual Employee Respoinder { get; set; }
     }
 }

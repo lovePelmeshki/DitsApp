@@ -76,6 +76,11 @@ namespace DitsApp.Model
                     .HasForeignKey(d => d.LocationId)
                     .HasConstraintName("FK_Equipment_Locations");
 
+                entity.HasOne(d => d.Point)
+                    .WithMany(p => p.Equipment)
+                    .HasForeignKey(d => d.PointId)
+                    .HasConstraintName("FK_Equipment_Points");
+
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.TypeId)
@@ -130,6 +135,11 @@ namespace DitsApp.Model
                     .HasForeignKey(d => d.EventTypeId)
                     .HasConstraintName("FK_Events_EventTypes");
 
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Events)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Events_Locations");
+
                 entity.HasOne(d => d.Respoinder)
                     .WithMany(p => p.EventRespoinders)
                     .HasForeignKey(d => d.RespoinderId)
@@ -149,7 +159,9 @@ namespace DitsApp.Model
             {
                 entity.Property(e => e.LineId).ValueGeneratedNever();
 
-                entity.Property(e => e.LineName).HasMaxLength(255);
+                entity.Property(e => e.LineName)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Location>(entity =>
