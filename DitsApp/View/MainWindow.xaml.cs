@@ -6,7 +6,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+#region scaffold
+/*
+ Scaffold - DbContext "Server=tcp:ditsapp.database.windows.net,1433;Initial Catalog=ditsappdb;Persist Security Info=False;User ID=lovepelmeshki;Password=90f8b7rr#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Model - Force
+*/
 
+#endregion
 
 namespace DitsApp
 {
@@ -48,24 +53,6 @@ namespace DitsApp
                 //Events 
                 #region Запрос Events
                 //Events DataGrid
-                //var queryEvents = from e in db.Events
-                //                  join eventType in db.EventTypes
-                //                  on e.EventTypeId equals eventType.EventTypeId
-                //                  join station in db.Stations
-                //                  on e.StationId equals station.StationId
-                //                  join location in db.Locations
-                //                  on e.StationId equals location.StationId
-                //                  join line in db.Lines
-                //                  on station.LineId equals line.LineId
-                //                  orderby e.EventId
-                //                  select new
-                //                  {
-                //                      Id = e.EventId,
-                //                      Type = eventType.EventName,
-                //                      Line = line.LineName,
-                //                      Station = station.StationName,
-                //                      Location = location.LocationName
-                //                  };
 
                 var queryEvents = from ev in db.Events
                                   join evType in db.EventTypes

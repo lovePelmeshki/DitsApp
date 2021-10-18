@@ -15,7 +15,7 @@ namespace DitsApp.Model
         }
 
         public int LocationId { get; set; }
-        public int? StationId { get; set; }
+        public int StationId { get; set; }
         public string LocationName { get; set; }
 
         public virtual Station Station { get; set; }
