@@ -16,7 +16,7 @@ namespace DitsApp.Model
         public string EquipmentId { get; set; }
         public int TypeId { get; set; }
         public int? InstallId { get; set; }
-        public int? PointId { get; set; }
+        public int PointId { get; set; }
 
         public virtual Point Point { get; set; }
         public virtual EquipmentType Type { get; set; }

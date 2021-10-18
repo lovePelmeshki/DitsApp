@@ -76,9 +76,12 @@ namespace DitsApp.Model
             {
                 entity.Property(e => e.EquipmentId).HasMaxLength(50);
 
+                entity.Property(e => e.PointId).HasDefaultValueSql("((13))");
+
                 entity.HasOne(d => d.Point)
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.PointId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Equipment_Points");
 
                 entity.HasOne(d => d.Type)
