@@ -9,17 +9,20 @@ namespace DitsApp.View
     /// </summary>
     public partial class NewEquipmentWindow : Window
     {
+        public int selectedClassId;
         public NewEquipmentWindow()
         {
             InitializeComponent();
 
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                var queryClass = from e_class in db.EquipmentClasses
-                                 select e_class;
-                ComboBoxClass.ItemsSource = queryClass.ToList();
-
-                //var quertType = 
+                var classes = from c in db.EquipmentClasses
+                              select new
+                              {
+                                  Id = c.EquipmentClassId,
+                                  Name = c.EquipmentClassName
+                              };
+                ComboBoxClass.ItemsSource = classes.ToList();
             }
         }
 
@@ -27,8 +30,32 @@ namespace DitsApp.View
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                //забрать данные с форм
+                db.Equipment.Add(new Equipment
+                {
+                    EquipmentId = TextBoxId.Text,
+                    TypeId = (int)ComboBoxType.SelectedValue
+                });
+                db.SaveChanges();
             }
+            Close();
+        }
+
+        private void ComboBoxClass_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            selectedClassId = (int)ComboBoxClass.SelectedValue;
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var types = from t in db.EquipmentTypes
+                            where t.ClassId == selectedClassId
+                            select new
+                            {
+                                Id = t.TypeId,
+                                Name = t.TypeName
+                            };
+                ComboBoxType.ItemsSource = types.ToList();
+            };
+            
+            
         }
     }
 }

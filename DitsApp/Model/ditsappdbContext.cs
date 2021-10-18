@@ -76,11 +76,6 @@ namespace DitsApp.Model
             {
                 entity.Property(e => e.EquipmentId).HasMaxLength(50);
 
-                entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Equipment)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Equipment_Locations");
-
                 entity.HasOne(d => d.Point)
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.PointId)
@@ -121,11 +116,15 @@ namespace DitsApp.Model
 
                 entity.Property(e => e.Comment).HasColumnType("ntext");
 
-                entity.Property(e => e.CreateDate).HasColumnType("date");
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.EquipmentId).HasMaxLength(50);
 
                 entity.Property(e => e.RespondDate).HasColumnType("date");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.EventCreators)

@@ -37,7 +37,7 @@
                           MinWidth="120" 
                           MaxWidth="200"
                           SelectedValuePath="Id"
-                          DisplayMemberPath="ClassName">
+                          DisplayMemberPath="Name" SelectionChanged="ComboBoxClass_SelectionChanged">
                 </ComboBox>
             </StackPanel>
 
@@ -47,14 +47,13 @@
                            Margin="0 0 10 0" 
                            MinWidth="120"
                            MaxWidth="200">
-                </TextBlock>                                               
+                </TextBlock>
 
                 <ComboBox x:Name="ComboBoxType"  
                           MinWidth="120" 
                           MaxWidth="200"
                           SelectedValuePath="Id"
-                          DisplayMemberPath="Post">
-
+                          DisplayMemberPath="Name">
                 </ComboBox>
             </StackPanel>
 

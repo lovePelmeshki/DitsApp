@@ -112,7 +112,8 @@
                           MouseDoubleClick="DataGridEvents_MouseDoubleClick"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
-                          SelectedValuePath="Id">
+                          SelectedValuePath="Id"
+                         >
                 </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal"
                             Margin="10" HorizontalAlignment="Center">

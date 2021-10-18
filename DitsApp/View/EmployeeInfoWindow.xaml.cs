@@ -33,6 +33,7 @@ namespace DitsApp
                                       from emp in db.Employees
                                       from eq in db.Equipment
                                       from type in db.EquipmentTypes
+                                      from point in db.Points
                                       from loc in db.Locations
                                       from station in db.Stations
 
@@ -40,13 +41,15 @@ namespace DitsApp
                                         && eq.TypeId == type.TypeId
                                         && emp.EmployeeId == employee.Id
                                         && eq.EquipmentId == maintenance.EquipmentId
-                                        && eq.LocationId == loc.LocationId
+                                        && eq.PointId == point.PointId
+                                        && point.LocationId == loc.LocationId
                                         && station.StationId == loc.StationId
 
                                       select new 
                                       {
                                           MaintenanceId = maintenance.MaintenanceId,
                                           Station = station.StationName,
+                                          Point = point.PointName,
                                           Location = loc.LocationName,
                                           EquipmentID = eq.EquipmentId,
                                           EquipmentType = type.TypeName,
