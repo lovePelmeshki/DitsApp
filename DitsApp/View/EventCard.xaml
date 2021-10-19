@@ -1,0 +1,46 @@
+﻿<Window x:Class="DitsApp.View.EventCard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DitsApp.View"
+        mc:Ignorable="d"
+        Title="EventCard" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="50">
+            
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Id" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock" MinWidth="120"  Text="{Binding Id}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Type" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock2" MinWidth="120"  Text="{Binding Type}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Station" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock3" MinWidth="120"  Text="{Binding Station}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Location" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock4" MinWidth="120"  Text="{Binding Location}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Status Должна быть возможность изменить" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock5" MinWidth="120"  Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="CreateDate" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock6" MinWidth="120"  Text="{Binding CreateDate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Respoinder Должна быть возможность изменить" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock7" MinWidth="120"  Text="{Binding Respoinder}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Comment Должна быть возможность изменить" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock8" MinWidth="120"  Text="{Binding Comment}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

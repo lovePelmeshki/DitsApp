@@ -12,7 +12,7 @@ namespace DitsApp.Model
             Stations = new HashSet<Station>();
         }
 
-        public int LineId { get; set; }
+        public int Id { get; set; }
         public string LineName { get; set; }
 
         public virtual ICollection<Station> Stations { get; set; }

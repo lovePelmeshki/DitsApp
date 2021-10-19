@@ -46,74 +46,151 @@ namespace DitsApp.Model
 
             modelBuilder.Entity<Department>(entity =>
             {
-                entity.Property(e => e.DepartmentId).ValueGeneratedNever();
+                entity.ToTable("departments");
 
-                entity.Property(e => e.DepartmentName).HasMaxLength(50);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DepartmentName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("department_name");
             });
 
             modelBuilder.Entity<Employee>(entity =>
             {
-                entity.Property(e => e.EmployeeId).ValueGeneratedNever();
+                entity.ToTable("employees");
 
-                entity.Property(e => e.Firstname).HasMaxLength(255);
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Lastname).HasMaxLength(255);
+                entity.Property(e => e.DepartmentId).HasColumnName("department_id");
 
-                entity.Property(e => e.Middlename).HasMaxLength(255);
+                entity.Property(e => e.Firstname)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("firstname");
+
+                entity.Property(e => e.Lastname)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("lastname");
+
+                entity.Property(e => e.Middlename)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("middlename");
 
                 entity.HasOne(d => d.Department)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.DepartmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Employees_Departments");
             });
 
             modelBuilder.Entity<Equipment>(entity =>
             {
-                entity.Property(e => e.EquipmentId).HasMaxLength(50);
+                entity.ToTable("equipment");
 
-                entity.HasOne(d => d.Location)
+                entity.Property(e => e.Id)
+                    .HasMaxLength(50)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.PointId)
+                    .HasColumnName("point_id")
+                    .HasDefaultValueSql("((13))");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.TypeId).HasColumnName("type_id");
+
+                entity.HasOne(d => d.Point)
                     .WithMany(p => p.Equipment)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Equipment_Locations");
+                    .HasForeignKey(d => d.PointId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Equipment_Points");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.TypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Equipment_EquipmentTypes");
             });
 
             modelBuilder.Entity<EquipmentClass>(entity =>
             {
-                entity.Property(e => e.EquipmentClassId).ValueGeneratedNever();
+                entity.ToTable("equipment_classes");
 
-                entity.Property(e => e.EquipmentClassName).HasMaxLength(50);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ClassName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("class_name");
             });
 
             modelBuilder.Entity<EquipmentType>(entity =>
             {
-                entity.HasKey(e => e.TypeId);
+                entity.ToTable("equipment_types");
 
-                entity.Property(e => e.TypeId).ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.TypeName).HasMaxLength(50);
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.InstallDuration).HasColumnName("install_duration");
+
+                entity.Property(e => e.MaintenanceDuration).HasColumnName("maintenance_duration");
+
+                entity.Property(e => e.TypeName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("type_name");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.EquipmentTypes)
                     .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EquipmentTypes_EquipmentClasses");
             });
 
             modelBuilder.Entity<Event>(entity =>
             {
-                entity.Property(e => e.CloseDate).HasColumnType("date");
+                entity.ToTable("events");
 
-                entity.Property(e => e.Comment).HasColumnType("text");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.CreateDate).HasColumnType("date");
+                entity.Property(e => e.CloseDate)
+                    .HasColumnType("date")
+                    .HasColumnName("close_date");
 
-                entity.Property(e => e.EquipmentId).HasMaxLength(50);
+                entity.Property(e => e.Comment)
+                    .HasColumnType("ntext")
+                    .HasColumnName("comment");
 
-                entity.Property(e => e.RespondDate).HasColumnType("date");
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasColumnName("create_date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatorId).HasColumnName("creator_id");
+
+                entity.Property(e => e.EquipmentId)
+                    .HasMaxLength(50)
+                    .HasColumnName("equipment_id");
+
+                entity.Property(e => e.LocationId).HasColumnName("location_id");
+
+                entity.Property(e => e.RespoinderId).HasColumnName("respoinder_id");
+
+                entity.Property(e => e.RespondDate)
+                    .HasColumnType("date")
+                    .HasColumnName("respond_date");
+
+                entity.Property(e => e.StationId).HasColumnName("station_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.TypeId).HasColumnName("type_id");
 
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.EventCreators)
@@ -125,58 +202,95 @@ namespace DitsApp.Model
                     .HasForeignKey(d => d.EquipmentId)
                     .HasConstraintName("FK_Events_Equipment");
 
-                entity.HasOne(d => d.EventType)
+                entity.HasOne(d => d.Location)
                     .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.EventTypeId)
-                    .HasConstraintName("FK_Events_EventTypes");
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Events_Locations");
 
                 entity.HasOne(d => d.Respoinder)
                     .WithMany(p => p.EventRespoinders)
                     .HasForeignKey(d => d.RespoinderId)
                     .HasConstraintName("FK_Events_Employees");
+
+                entity.HasOne(d => d.Type)
+                    .WithMany(p => p.Events)
+                    .HasForeignKey(d => d.TypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Events_EventTypes");
             });
 
             modelBuilder.Entity<EventType>(entity =>
             {
-                entity.Property(e => e.EventTypeId).ValueGeneratedNever();
+                entity.ToTable("event_types");
 
-                entity.Property(e => e.Description).HasColumnType("text");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.EventName).HasMaxLength(50);
+                entity.Property(e => e.Description)
+                    .HasColumnType("ntext")
+                    .HasColumnName("description");
+
+                entity.Property(e => e.TypeName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("type_name");
             });
 
             modelBuilder.Entity<Line>(entity =>
             {
-                entity.Property(e => e.LineId).ValueGeneratedNever();
+                entity.ToTable("lines");
 
-                entity.Property(e => e.LineName).HasMaxLength(255);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LineName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("line_name");
             });
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.Property(e => e.LocationId).ValueGeneratedNever();
+                entity.ToTable("locations");
 
-                entity.Property(e => e.LocationName).HasMaxLength(255);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LocationName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("location_name");
+
+                entity.Property(e => e.StationId).HasColumnName("station_id");
 
                 entity.HasOne(d => d.Station)
                     .WithMany(p => p.Locations)
                     .HasForeignKey(d => d.StationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Locations_Stations");
             });
 
             modelBuilder.Entity<Maintenance>(entity =>
             {
-                entity.Property(e => e.Comment).HasColumnType("text");
+                entity.ToTable("maintenances");
 
-                entity.Property(e => e.Comment2).HasColumnType("text");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.DueDate).HasColumnType("date");
+                entity.Property(e => e.Comment)
+                    .HasColumnType("ntext")
+                    .HasColumnName("comment");
+
+                entity.Property(e => e.DurationDate)
+                    .HasColumnType("date")
+                    .HasColumnName("duration_date");
 
                 entity.Property(e => e.EquipmentId)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("equipment_id");
 
-                entity.Property(e => e.MaintenanceDate).HasColumnType("date");
+                entity.Property(e => e.MainteinerId).HasColumnName("mainteiner_id");
+
+                entity.Property(e => e.MaintenanceDate)
+                    .HasColumnType("date")
+                    .HasColumnName("maintenance_date");
 
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.Maintenances)
@@ -184,29 +298,45 @@ namespace DitsApp.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Maintenances_Equipment");
 
-                entity.HasOne(d => d.Maintainer)
+                entity.HasOne(d => d.Mainteiner)
                     .WithMany(p => p.Maintenances)
-                    .HasForeignKey(d => d.MaintainerId)
+                    .HasForeignKey(d => d.MainteinerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Maintenances_Employees");
             });
 
             modelBuilder.Entity<Point>(entity =>
             {
-                entity.Property(e => e.PointId).ValueGeneratedNever();
+                entity.ToTable("points");
 
-                entity.Property(e => e.PointName).HasMaxLength(255);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LocationId).HasColumnName("location_id");
+
+                entity.Property(e => e.PointName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("point_name");
 
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.Points)
                     .HasForeignKey(d => d.LocationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Points_Locations");
             });
 
             modelBuilder.Entity<Station>(entity =>
             {
+                entity.ToTable("stations");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LineId).HasColumnName("line_id");
+
                 entity.Property(e => e.StationName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnName("station_name");
 
                 entity.HasOne(d => d.Line)
                     .WithMany(p => p.Stations)
@@ -217,11 +347,21 @@ namespace DitsApp.Model
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.UserId).ValueGeneratedNever();
+                entity.ToTable("users");
 
-                entity.Property(e => e.Hash).HasColumnType("text");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
 
-                entity.Property(e => e.UserName).HasMaxLength(255);
+                entity.Property(e => e.Hash)
+                    .HasColumnType("text")
+                    .HasColumnName("hash");
+
+                entity.Property(e => e.Permission).HasColumnName("permission");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(255)
+                    .HasColumnName("user_name");
             });
 
             modelBuilder.HasSequence<int>("SalesOrderNumber", "SalesLT");

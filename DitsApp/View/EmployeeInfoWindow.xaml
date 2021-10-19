@@ -32,7 +32,11 @@
         </DataGrid>
 
         <DataGrid Grid.Row="2"
-                  x:Name="DataGridEmployeeEventInfo">
+                  x:Name="DataGridEmployeeEventInfo"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Single"
+                  SelectedValuePath="Id"
+                  MouseDoubleClick="DataGridEmployeeEventInfo_MouseDoubleClick">
             
         </DataGrid>
         

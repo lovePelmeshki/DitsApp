@@ -12,7 +12,7 @@ namespace DitsApp.Model
             Employees = new HashSet<Employee>();
         }
 
-        public int DepartmentId { get; set; }
+        public int Id { get; set; }
         public string DepartmentName { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
