@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 #region scaffold
 /*
- Scaffold - DbContext "Server=tcp:ditsapp.database.windows.net,1433;Initial Catalog=ditsappdb;Persist Security Info=False;User ID=lovepelmeshki;Password=90f8b7rr#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Model - Force
+Scaffold-DbContext "Server=tcp:ditsapp.database.windows.net,1433;Initial Catalog=ditsappdb;Persist Security Info=False;User ID=lovepelmeshki;Password=90f8b7rr#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model -Force
 */
 
 #endregion
@@ -48,6 +48,7 @@ namespace DitsApp
                 var queryEquipment = from equipment in db.Equipment
                                      select equipment;
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
+
                 #endregion
 
                 //Events 
@@ -155,6 +156,17 @@ namespace DitsApp
             var selectedEventId = (int)dataGrid.SelectedValue;
             var window = new EventCard(selectedEventId);
             window.Show();
+        }
+
+        private void RefreshEquipmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var queryEquipment = from equipment in db.Equipment
+                                     select equipment;
+                DataGridEquipment.ItemsSource = queryEquipment.ToList();
+            }
+            
         }
     }
 

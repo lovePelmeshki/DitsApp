@@ -13,17 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Name="MainStackPanel" Orientation="Vertical" Grid.Row="1">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="ID" 
-                           Margin="0 0 10 0" 
-                           MinWidth="120"
-                           MaxWidth="200">
-                </TextBlock>
-                <TextBox x:Name="TextBoxId"  
-                          MinWidth="120" 
-                          MaxWidth="200">
-                </TextBox>
-            </StackPanel>
+
 
             <!--Class-->
             <StackPanel Orientation="Horizontal" Margin="10">
@@ -55,6 +45,27 @@
                           SelectedValuePath="Id"
                           DisplayMemberPath="Name">
                 </ComboBox>
+            </StackPanel>
+            
+            <!--ID-->
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="ID" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+                <TextBox x:Name="TextBoxId"  
+                          MinWidth="120" 
+                          MaxWidth="200">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Дата проверки" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+                <DatePicker></DatePicker>
             </StackPanel>
 
 

@@ -94,11 +94,33 @@ namespace DitsApp.Model
                     .HasMaxLength(50)
                     .HasColumnName("id");
 
+                entity.Property(e => e.CheckupDate)
+                    .HasColumnType("date")
+                    .HasColumnName("checkup_date");
+
+                entity.Property(e => e.InstallDate)
+                    .HasColumnType("date")
+                    .HasColumnName("install_date");
+
+                entity.Property(e => e.MaintenanceDate)
+                    .HasColumnType("date")
+                    .HasColumnName("maintenance_date");
+
+                entity.Property(e => e.NextCheckupDate)
+                    .HasColumnType("date")
+                    .HasColumnName("next_checkup_date");
+
+                entity.Property(e => e.NextMaintenanceDate)
+                    .HasColumnType("date")
+                    .HasColumnName("next_maintenance_date");
+
                 entity.Property(e => e.PointId)
                     .HasColumnName("point_id")
                     .HasDefaultValueSql("((13))");
 
-                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.TypeId).HasColumnName("type_id");
 
