@@ -43,7 +43,7 @@
                           MinWidth="120" 
                           MaxWidth="200"
                           SelectedValuePath="Id"
-                          DisplayMemberPath="Name">
+                          DisplayMemberPath="Name" SelectionChanged="ComboBoxType_SelectionChanged">
                 </ComboBox>
             </StackPanel>
             
@@ -65,7 +65,15 @@
                            MinWidth="120"
                            MaxWidth="200">
                 </TextBlock>
-                <DatePicker></DatePicker>
+                <DatePicker x:Name="CheckupDatePicker"></DatePicker>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Дата получения" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+                <DatePicker x:Name="InstallDatePicker"></DatePicker>
             </StackPanel>
 
 

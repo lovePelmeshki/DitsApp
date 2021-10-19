@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Linq;
 using DitsApp.Model;
+using System.Windows.Controls;
 
 namespace DitsApp.View
 {
@@ -9,7 +10,9 @@ namespace DitsApp.View
     /// </summary>
     public partial class NewEquipmentWindow : Window
     {
-        public int selectedClassId;
+        private int _selectedClassId;
+        private int _selectedTypeId;
+        private int _installDuration;
         public NewEquipmentWindow()
         {
             InitializeComponent();
@@ -33,29 +36,48 @@ namespace DitsApp.View
                 db.Equipment.Add(new Equipment
                 {
                     Id = TextBoxId.Text,
-                    TypeId = (int)ComboBoxType.SelectedValue
+                    TypeId = (int)ComboBoxType.SelectedValue,
+                    PointId = 13,
+                    Status = 1,
+                    CheckupDate = CheckupDatePicker.DisplayDate,
+                    NextCheckupDate = CheckupDatePicker.DisplayDate.AddMonths(_installDuration),
+                    InstallDate = InstallDatePicker.DisplayDate                    
                 });
                 db.SaveChanges();
             }
             Close();
         }
 
-        private void ComboBoxClass_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void ComboBoxClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedClassId = (int)ComboBoxClass.SelectedValue;
+            _selectedClassId = (int)ComboBoxClass.SelectedValue;
             using (ditsappdbContext db = new ditsappdbContext())
             {
                 var types = from t in db.EquipmentTypes
-                            where t.ClassId == selectedClassId
+                            where t.ClassId == _selectedClassId
                             select new
                             {
                                 Id = t.Id,
-                                Name = t.TypeName
+                                Name = t.TypeName,
+                                _installDuration = t.InstallDuration
                             };
                 ComboBoxType.ItemsSource = types.ToList();
             };
-            
-            
+              
+        }
+
+        private void ComboBoxType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _selectedTypeId = (int)ComboBoxType.SelectedValue;
+
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var types = from type in db.EquipmentTypes
+                            where type.Id == _selectedTypeId
+                            select type.InstallDuration;
+                _installDuration = (int)types.FirstOrDefault();
+
+            }
         }
     }
 }
