@@ -12,8 +12,8 @@ namespace DitsApp.Model
             Events = new HashSet<Event>();
         }
 
-        public int EventTypeId { get; set; }
-        public string EventName { get; set; }
+        public int Id { get; set; }
+        public string TypeName { get; set; }
         public string Description { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }

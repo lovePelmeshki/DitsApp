@@ -12,7 +12,7 @@ namespace DitsApp.Model
             Equipment = new HashSet<Equipment>();
         }
 
-        public int PointId { get; set; }
+        public int Id { get; set; }
         public int LocationId { get; set; }
         public string PointName { get; set; }
 

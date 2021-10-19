@@ -12,7 +12,7 @@ namespace DitsApp.Model
             Equipment = new HashSet<Equipment>();
         }
 
-        public int TypeId { get; set; }
+        public int Id { get; set; }
         public string TypeName { get; set; }
         public int? InstallDuration { get; set; }
         public int? MaintenanceDuration { get; set; }

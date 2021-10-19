@@ -19,8 +19,8 @@ namespace DitsApp.View
                 var classes = from c in db.EquipmentClasses
                               select new
                               {
-                                  Id = c.EquipmentClassId,
-                                  Name = c.EquipmentClassName
+                                  Id = c.Id,
+                                  Name = c.ClassName
                               };
                 ComboBoxClass.ItemsSource = classes.ToList();
             }
@@ -32,7 +32,7 @@ namespace DitsApp.View
             {
                 db.Equipment.Add(new Equipment
                 {
-                    EquipmentId = TextBoxId.Text,
+                    Id = TextBoxId.Text,
                     TypeId = (int)ComboBoxType.SelectedValue
                 });
                 db.SaveChanges();
@@ -49,7 +49,7 @@ namespace DitsApp.View
                             where t.ClassId == selectedClassId
                             select new
                             {
-                                Id = t.TypeId,
+                                Id = t.Id,
                                 Name = t.TypeName
                             };
                 ComboBoxType.ItemsSource = types.ToList();

@@ -37,45 +37,45 @@ namespace DitsApp
                                       from loc in db.Locations
                                       from station in db.Stations
 
-                                      where maintenance.MaintainerId == employee.Id
-                                        && eq.TypeId == type.TypeId
-                                        && emp.EmployeeId == employee.Id
-                                        && eq.EquipmentId == maintenance.EquipmentId
-                                        && eq.PointId == point.PointId
-                                        && point.LocationId == loc.LocationId
-                                        && station.StationId == loc.StationId
+                                      where maintenance.MainteinerId == employee.Id
+                                        && eq.TypeId == type.Id
+                                        && emp.Id == employee.Id
+                                        && eq.Id == maintenance.EquipmentId
+                                        && eq.PointId == point.Id
+                                        && point.LocationId == loc.Id
+                                        && station.Id == loc.StationId
 
                                       select new 
                                       {
-                                          MaintenanceId = maintenance.MaintenanceId,
+                                          MaintenanceId = maintenance.Id,
                                           Station = station.StationName,
                                           Point = point.PointName,
                                           Location = loc.LocationName,
-                                          EquipmentID = eq.EquipmentId,
+                                          EquipmentID = eq.Id,
                                           EquipmentType = type.TypeName,
                                           MaintainerLastname = emp.Lastname,
                                           MaintainerFirstname = emp.Firstname,
                                           MaintainerMiddlename = emp.Middlename,
                                           Date = maintenance.MaintenanceDate,
-                                          DueDate = maintenance.DueDate,
+                                          DueDate = maintenance.DurationDate,
                                       };
 
                 EmployeeMaintenanceInfoDataGrid.ItemsSource = queryMaintenanceInfo.ToList();
 
                 var queryEventsInfo = from ev in db.Events
                                       join evType in db.EventTypes
-                                      on ev.EventTypeId equals evType.EventTypeId
+                                      on ev.TypeId equals evType.Id
                                       join station in db.Stations
-                                      on ev.StationId equals station.StationId
+                                      on ev.StationId equals station.Id
 
                                       join location in db.Locations
-                                      on ev.LocationId equals location.LocationId into ls
+                                      on ev.LocationId equals location.Id into ls
                                       from location in ls.DefaultIfEmpty()
                                       where ev.RespoinderId == employee.Id
                                       select new
                                       {
-                                          Id = ev.EventId,
-                                          Type = evType.EventName,
+                                          Id = ev.Id,
+                                          Type = evType.TypeName,
                                           Station = station.StationName,
                                           Location = location == null ? "---" : location.LocationName
                                       };

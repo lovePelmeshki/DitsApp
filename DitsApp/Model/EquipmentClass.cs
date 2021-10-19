@@ -12,8 +12,8 @@ namespace DitsApp.Model
             EquipmentTypes = new HashSet<EquipmentType>();
         }
 
-        public int EquipmentClassId { get; set; }
-        public string EquipmentClassName { get; set; }
+        public int Id { get; set; }
+        public string ClassName { get; set; }
 
         public virtual ICollection<EquipmentType> EquipmentTypes { get; set; }
     }

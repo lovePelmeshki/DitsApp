@@ -13,10 +13,10 @@ namespace DitsApp.Model
             Maintenances = new HashSet<Maintenance>();
         }
 
-        public string EquipmentId { get; set; }
+        public string Id { get; set; }
         public int TypeId { get; set; }
-        public int? InstallId { get; set; }
         public int PointId { get; set; }
+        public int? Status { get; set; }
 
         public virtual Point Point { get; set; }
         public virtual EquipmentType Type { get; set; }

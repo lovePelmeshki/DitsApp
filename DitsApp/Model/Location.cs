@@ -13,7 +13,7 @@ namespace DitsApp.Model
             Points = new HashSet<Point>();
         }
 
-        public int LocationId { get; set; }
+        public int Id { get; set; }
         public int StationId { get; set; }
         public string LocationName { get; set; }
 

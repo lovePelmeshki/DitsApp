@@ -30,10 +30,10 @@ namespace DitsApp
                 #region Запрос Employees
                 var queryAllEmployees = from employee in db.Employees
                                         join department in db.Departments
-                                        on employee.DepartmentId equals department.DepartmentId
+                                        on employee.DepartmentId equals department.Id
                                         select new EmployeeInfo()
                                         {
-                                            Id = employee.EmployeeId,
+                                            Id = employee.Id,
                                             Lastname = employee.Lastname,
                                             Firstname = employee.Firstname,
                                             Middlename = employee.Middlename,
@@ -56,17 +56,17 @@ namespace DitsApp
 
                 var queryEvents = from ev in db.Events
                                   join evType in db.EventTypes
-                                  on ev.EventTypeId equals evType.EventTypeId
+                                  on ev.TypeId equals evType.Id
                                   join station in db.Stations
-                                  on ev.StationId equals station.StationId
+                                  on ev.StationId equals station.Id
 
                                   join location in db.Locations
-                                  on ev.LocationId equals location.LocationId into ls
+                                  on ev.LocationId equals location.Id into ls
                                   from location in ls.DefaultIfEmpty()
                                   select new
                                   {
-                                      Id = ev.EventId,
-                                      Type = evType.EventName,
+                                      Id = ev.Id,
+                                      Type = evType.TypeName,
                                       Station = station.StationName,
                                       Location = location == null? "---" : location.LocationName
                                   };
@@ -129,17 +129,17 @@ namespace DitsApp
             {
                 var queryEvents = from ev in db.Events
                                   join evType in db.EventTypes
-                                  on ev.EventTypeId equals evType.EventTypeId
+                                  on ev.TypeId equals evType.Id
                                   join station in db.Stations
-                                  on ev.StationId equals station.StationId
+                                  on ev.StationId equals station.Id
 
                                   join location in db.Locations
-                                  on ev.LocationId equals location.LocationId into ls
+                                  on ev.LocationId equals location.Id into ls
                                   from location in ls.DefaultIfEmpty()
                                   select new
                                   {
-                                      Id = ev.EventId,
-                                      Type = evType.EventName,
+                                      Id = ev.Id,
+                                      Type = evType.TypeName,
                                       Station = station.StationName,
                                       Location = location == null ? "---" : location.LocationName
                                   };

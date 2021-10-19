@@ -7,7 +7,7 @@ namespace DitsApp.Model
 {
     public partial class User
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string UserName { get; set; }
         public int? Permission { get; set; }
         public string Hash { get; set; }

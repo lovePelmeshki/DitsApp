@@ -32,8 +32,8 @@ namespace DitsApp.View
                 var queryEventTypes = from eventType in db.EventTypes
                                       select new
                                       {
-                                          Id = eventType.EventTypeId,
-                                          Type = eventType.EventName
+                                          Id = eventType.Id,
+                                          Type = eventType.TypeName
                                       };
                 ComboBoxEventType.ItemsSource = queryEventTypes.ToList();
                 #endregion
@@ -43,7 +43,7 @@ namespace DitsApp.View
                 var queryMaintainers = from maintainer in db.Employees
                                        select new
                                        {
-                                           Id = maintainer.EmployeeId,
+                                           Id = maintainer.Id,
                                            Lastname = maintainer.Lastname,
                                            Firstname = maintainer.Firstname,
                                            Middlename = maintainer.Middlename
@@ -56,7 +56,7 @@ namespace DitsApp.View
                 var queryLines = from line in db.Lines
                                  select new
                                  {
-                                     Id = line.LineId,
+                                     Id = line.Id,
                                      Name = line.LineName
                                  };
                 ComboBoxLine.ItemsSource = queryLines.ToList();
@@ -75,7 +75,7 @@ namespace DitsApp.View
                 db.Events.Add(new Event
                 {
                     Comment = CommentTextBox.Text,
-                    EventTypeId = (int)ComboBoxEventType.SelectedValue,
+                    TypeId = (int)ComboBoxEventType.SelectedValue,
                     RespoinderId = ComboBoxMaintainer.SelectedValue as int?,
                     StationId = (int)ComboBoxStation.SelectedValue,
                     //CreateDate = DateTime.Now,
@@ -103,11 +103,11 @@ namespace DitsApp.View
                 if (ComboBoxStation.SelectedValue != null) selectedStationId = (int)ComboBoxStation.SelectedValue;
                 var queryLocations = from station in db.Stations
                                      join location in db.Locations
-                                     on station.StationId equals location.StationId
-                                     where station.StationId == selectedStationId
+                                     on station.Id equals location.StationId
+                                     where station.Id == selectedStationId
                                      select new
                                      {
-                                         Id = location.LocationId,
+                                         Id = location.Id,
                                          Post = location.LocationName
                                      };
                 ComboBoxPost.ItemsSource = queryLocations.ToList();
@@ -125,11 +125,11 @@ namespace DitsApp.View
                 selectedLineId = (int)ComboBoxLine.SelectedValue;
                 var queryStations = from line in db.Lines
                                     join station in db.Stations
-                                    on line.LineId equals station.LineId
+                                    on line.Id equals station.LineId
                                     where station.LineId == selectedLineId
                                     select new
                                     {
-                                        Id = station.StationId,
+                                        Id = station.Id,
                                         Name = station.StationName
                                     };
                 ComboBoxStation.ItemsSource = queryStations.ToList();

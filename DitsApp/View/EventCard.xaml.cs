@@ -22,24 +22,24 @@ namespace DitsApp.View
             {
                 
                 var queryEvents = from ev in db.Events
-                                  where ev.EventId == EventId
+                                  where ev.Id == EventId
                                   join evType in db.EventTypes
-                                  on ev.EventTypeId equals evType.EventTypeId
+                                  on ev.TypeId equals evType.Id
                                   join station in db.Stations
-                                  on ev.StationId equals station.StationId
+                                  on ev.StationId equals station.Id
 
                                   join location in db.Locations
-                                  on ev.LocationId equals location.LocationId into ls
+                                  on ev.LocationId equals location.Id into ls
                                   from location in ls.DefaultIfEmpty()
 
                                   join emp in db.Employees
-                                  on ev.RespoinderId equals emp.EmployeeId into rs
+                                  on ev.RespoinderId equals emp.Id into rs
                                   from emp in rs.DefaultIfEmpty()
                                  
                                   select new
                                   {
-                                      Id = ev.EventId,
-                                      Type = evType.EventName,
+                                      Id = ev.Id,
+                                      Type = evType.TypeName,
                                       Station = station.StationName,
                                       Location = location == null ? "---" : location.LocationName,
                                       Status = ev.Status,
