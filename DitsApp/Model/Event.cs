@@ -11,7 +11,7 @@ namespace DitsApp.Model
         public int TypeId { get; set; }
         public int StationId { get; set; }
         public int? LocationId { get; set; }
-        public string EquipmentId { get; set; }
+        public int? EquipmentId { get; set; }
         public int Status { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? CloseDate { get; set; }

@@ -91,9 +91,12 @@ namespace DitsApp.Model
             {
                 entity.ToTable("equipment");
 
-                entity.Property(e => e.Id)
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.SerialNumber)
+                    .IsRequired()
                     .HasMaxLength(50)
-                    .HasColumnName("id");
+                    .HasColumnName("serial_number");
 
                 entity.Property(e => e.TypeId).HasColumnName("type_id");
 
@@ -132,10 +135,7 @@ namespace DitsApp.Model
                     .HasColumnType("date")
                     .HasColumnName("checkup_date");
 
-                entity.Property(e => e.EquipmentId)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("equipment_id");
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.InstallDate)
                     .HasColumnType("date")
@@ -223,9 +223,7 @@ namespace DitsApp.Model
 
                 entity.Property(e => e.CreatorId).HasColumnName("creator_id");
 
-                entity.Property(e => e.EquipmentId)
-                    .HasMaxLength(50)
-                    .HasColumnName("equipment_id");
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 
@@ -332,10 +330,7 @@ namespace DitsApp.Model
                     .HasColumnType("date")
                     .HasColumnName("duration_date");
 
-                entity.Property(e => e.EquipmentId)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("equipment_id");
+                entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.MainteinerId).HasColumnName("mainteiner_id");
 

@@ -14,8 +14,9 @@ namespace DitsApp.Model
             Maintenances = new HashSet<Maintenance>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int TypeId { get; set; }
+        public string SerialNumber { get; set; }
 
         public virtual EquipmentType Type { get; set; }
         public virtual ICollection<EquipmentStatus> EquipmentStatuses { get; set; }

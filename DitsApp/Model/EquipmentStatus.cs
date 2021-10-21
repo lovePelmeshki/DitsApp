@@ -9,7 +9,7 @@ namespace DitsApp.Model
     {
         public int Id { get; set; }
         public int MaintainerId { get; set; }
-        public string EquipmentId { get; set; }
+        public int EquipmentId { get; set; }
         public int PointId { get; set; }
         public int Status { get; set; }
         public DateTime ChangeDate { get; set; }
