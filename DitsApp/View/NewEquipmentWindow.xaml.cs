@@ -43,19 +43,28 @@ namespace DitsApp.View
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                string equipmentId = TextBoxId.Text;
+                string serialNumber = TextBoxId.Text;
                 DateTime checkupDate = CheckupDatePicker.DisplayDate;
                 DateTime maintenanceDate = InstallDatePicker.DisplayDate;
 
                 db.Equipment.Add(new Equipment
                 {
-                    Id = equipmentId,
+                    SerialNumber = serialNumber,
                     TypeId = (int)ComboBoxType.SelectedValue
                                        
                 });
-                db.EquipmentStatuses.Add(new EquipmentStatus
+
+                db.SaveChanges();
+
+                var newEquipmentId = from eq in db.Equipment
+                                     where eq.SerialNumber == serialNumber &&
+                                     eq.TypeId == _selectedTypeId
+                                     select eq.Id;
+                int eqId = newEquipmentId.FirstOrDefault();
+
+                   db.EquipmentStatuses.Add(new EquipmentStatus
                 {
-                    EquipmentId = equipmentId,
+                    EquipmentId = eqId,
                     PointId = 13,
                     Status = 1,
                     ChangeDate = DateTime.Now,
@@ -74,9 +83,12 @@ namespace DitsApp.View
 
         private void ComboBoxClass_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedClassId = (int)ComboBoxClass.SelectedValue;
+            ComboBoxType.ItemsSource = null;
             using (ditsappdbContext db = new ditsappdbContext())
             {
+ 
+                if (ComboBoxClass.SelectedValue != null) _selectedClassId = (int)ComboBoxClass.SelectedValue;
+
                 var types = from t in db.EquipmentTypes
                             where t.ClassId == _selectedClassId
                             select new
@@ -92,10 +104,12 @@ namespace DitsApp.View
 
         private void ComboBoxType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedTypeId = (int)ComboBoxType.SelectedValue;
 
             using (ditsappdbContext db = new ditsappdbContext())
             {
+
+                if (ComboBoxType.SelectedValue != null) _selectedTypeId = (int)ComboBoxType.SelectedValue;
+
                 var installDuration = from type in db.EquipmentTypes
                             where type.Id == _selectedTypeId
                             select type.InstallDuration;

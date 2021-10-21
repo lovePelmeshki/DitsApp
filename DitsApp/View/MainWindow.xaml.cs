@@ -45,13 +45,14 @@ namespace DitsApp
                 //Equipment 
                 #region Запрос Equipment
 
-                var queryEquipment = from equipment in db.Equipment
+                var queryEquipment = from e in db.Equipment
                                      join type in db.EquipmentTypes
-                                     on equipment.TypeId equals type.Id
+                                     on e.TypeId equals type.Id
 
                                      select new
                                      {
-                                         Id = equipment.Id,
+                                         Id = e.Id,
+                                         Serial = e.SerialNumber,
                                          Type = type.TypeName,
                                          
                                      };

@@ -123,9 +123,7 @@ namespace DitsApp.Model
             {
                 entity.ToTable("equipment_status");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ChangeDate)
                     .HasColumnType("date")
