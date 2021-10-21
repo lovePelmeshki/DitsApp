@@ -80,8 +80,12 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                
                 <DataGrid x:Name="DataGridEquipment"
-                  Grid.Row="0" Grid.ColumnSpan="2">
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          SelectedValuePath="Id"
+                  Grid.Row="0" Grid.ColumnSpan="2" MouseDoubleClick="DataGridEquipment_MouseDoubleClick" >
                 </DataGrid>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
                     

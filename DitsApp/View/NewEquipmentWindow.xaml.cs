@@ -73,7 +73,8 @@ namespace DitsApp.View
                     MaintenanceDate = maintenanceDate,
                     NextMaintenanceDate = maintenanceDate.AddMonths(_maintenanceDuration),
                     InstallDate = maintenanceDate,
-                    MaintainerId = (int)ComboBoxEmployee.SelectedValue
+                    MaintainerId = (int)ComboBoxEmployee.SelectedValue,
+                    StatusType = "Получение со склада"
 
                 });
                 db.SaveChanges();

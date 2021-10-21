@@ -157,6 +157,11 @@ namespace DitsApp.Model
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
+                entity.Property(e => e.StatusType)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("status_type");
+
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.EquipmentStatuses)
                     .HasForeignKey(d => d.EquipmentId)

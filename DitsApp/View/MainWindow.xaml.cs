@@ -49,7 +49,7 @@ namespace DitsApp
                                      join type in db.EquipmentTypes
                                      on e.TypeId equals type.Id
 
-                                     join s in db.EquipmentStatuses
+                                     join s in db.EquipmentStatuses 
                                      on e.Id equals s.EquipmentId
 
                                      join point in db.Points
@@ -61,18 +61,15 @@ namespace DitsApp
                                      join station in db.Stations
                                      on loc.StationId equals station.Id
 
-
                                      select new
                                      {
                                          Id = e.Id,
                                          Serial = e.SerialNumber,
                                          Type = type.TypeName,
-                                         Status = s.Status,
+                                         Status = s.Status ,
                                          Station = station.StationName,
                                          Location = loc.LocationName,
                                          Point = point.PointName,
-                                         
-
                                          
                                      };
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
@@ -117,7 +114,7 @@ namespace DitsApp
                 #endregion
             }
         }
-        //DoubleClick DataGrid
+        // Employee DoubleClick 
         private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
@@ -149,7 +146,7 @@ namespace DitsApp
             window.Show();
         }
 
-        //Обновить DataGrid Events DataSource
+        //Refresh Events
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             // Обновление происходит через повторный запрос к БД
@@ -178,21 +175,62 @@ namespace DitsApp
 
         }
 
+
+        //Events DoubleClick
         private void DataGridEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
-            var selectedEventId = (int)dataGrid.SelectedValue;
+            int selectedEventId = (int)dataGrid.SelectedValue;
             var window = new EventCard(selectedEventId);
             window.Show();
         }
 
+
+        //Refresh Equipment
         private void RefreshEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                
+                var queryEquipment = from eq in db.Equipment
+                                     join type in db.EquipmentTypes
+                                     on eq.TypeId equals type.Id
+
+                                     join s in db.EquipmentStatuses
+                                     on eq.Id equals s.EquipmentId
+
+                                     join point in db.Points
+                                     on s.PointId equals point.Id
+
+                                     join loc in db.Locations
+                                     on point.LocationId equals loc.Id
+
+                                     join station in db.Stations
+                                     on loc.StationId equals station.Id
+
+                                     select new
+                                     {
+                                         Id = eq.Id,
+                                         Serial = eq.SerialNumber,
+                                         Type = type.TypeName,
+                                         Status = s.Status,
+                                         Station = station.StationName,
+                                         Location = loc.LocationName,
+                                         Point = point.PointName,
+
+                                     };
+                DataGridEquipment.ItemsSource = queryEquipment.ToList();
             }
 
+        }
+
+        //Equipment DoubleClick
+        private void DataGridEquipment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            DataGrid dataGrid = sender as DataGrid;
+            int selectedEquipmentId = (int)dataGrid.SelectedValue;
+            var window = new EquipmentCard(selectedEquipmentId);
+            window.Show();
         }
     }
 
