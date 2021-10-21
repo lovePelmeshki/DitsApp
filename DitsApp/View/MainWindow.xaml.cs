@@ -49,11 +49,30 @@ namespace DitsApp
                                      join type in db.EquipmentTypes
                                      on e.TypeId equals type.Id
 
+                                     join s in db.EquipmentStatuses
+                                     on e.Id equals s.EquipmentId
+
+                                     join point in db.Points
+                                     on s.PointId equals point.Id
+
+                                     join loc in db.Locations
+                                     on point.LocationId equals loc.Id
+
+                                     join station in db.Stations
+                                     on loc.StationId equals station.Id
+
+
                                      select new
                                      {
                                          Id = e.Id,
                                          Serial = e.SerialNumber,
                                          Type = type.TypeName,
+                                         Status = s.Status,
+                                         Station = station.StationName,
+                                         Location = loc.LocationName,
+                                         Point = point.PointName,
+                                         
+
                                          
                                      };
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
