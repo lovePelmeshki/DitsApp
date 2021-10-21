@@ -62,8 +62,6 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
                         <Button Content="OK" 
                 Grid.Row="3" 
-                Height="65" 
-                Width="180"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Margin="10"/>
@@ -88,15 +86,13 @@
                 <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
                     
                     <Button x:Name="ButtonAddEquipment" Margin="5"
-                    Content="Add New Equipment"
-                    Height="60"
-                    Width="120"
+                    Content="+ New Equipment"
+                    Background="#FF0B930B"
                     Click="ButtonAddEquipment_Click"/>
                     
                     <Button x:Name="RefreshEquipmentButton" Margin="5"
                     Content="Refresh"
-                    Height="60"
-                    Width="120" Click="RefreshEquipmentButton_Click"/>
+                    Click="RefreshEquipmentButton_Click"/>
                 </StackPanel>
                 
             </Grid>

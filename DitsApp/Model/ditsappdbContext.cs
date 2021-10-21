@@ -21,6 +21,7 @@ namespace DitsApp.Model
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EquipmentClass> EquipmentClasses { get; set; }
+        public virtual DbSet<EquipmentStatus> EquipmentStatuses { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
@@ -94,41 +95,7 @@ namespace DitsApp.Model
                     .HasMaxLength(50)
                     .HasColumnName("id");
 
-                entity.Property(e => e.CheckupDate)
-                    .HasColumnType("date")
-                    .HasColumnName("checkup_date");
-
-                entity.Property(e => e.InstallDate)
-                    .HasColumnType("date")
-                    .HasColumnName("install_date");
-
-                entity.Property(e => e.MaintenanceDate)
-                    .HasColumnType("date")
-                    .HasColumnName("maintenance_date");
-
-                entity.Property(e => e.NextCheckupDate)
-                    .HasColumnType("date")
-                    .HasColumnName("next_checkup_date");
-
-                entity.Property(e => e.NextMaintenanceDate)
-                    .HasColumnType("date")
-                    .HasColumnName("next_maintenance_date");
-
-                entity.Property(e => e.PointId)
-                    .HasColumnName("point_id")
-                    .HasDefaultValueSql("((13))");
-
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
-
                 entity.Property(e => e.TypeId).HasColumnName("type_id");
-
-                entity.HasOne(d => d.Point)
-                    .WithMany(p => p.Equipment)
-                    .HasForeignKey(d => d.PointId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Equipment_Points");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Equipment)
@@ -147,6 +114,68 @@ namespace DitsApp.Model
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("class_name");
+            });
+
+            modelBuilder.Entity<EquipmentStatus>(entity =>
+            {
+                entity.ToTable("equipment_status");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.ChangeDate)
+                    .HasColumnType("date")
+                    .HasColumnName("change_date");
+
+                entity.Property(e => e.CheckupDate)
+                    .HasColumnType("date")
+                    .HasColumnName("checkup_date");
+
+                entity.Property(e => e.EquipmentId)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("equipment_id");
+
+                entity.Property(e => e.InstallDate)
+                    .HasColumnType("date")
+                    .HasColumnName("install_date");
+
+                entity.Property(e => e.MaintainerId).HasColumnName("maintainer_id");
+
+                entity.Property(e => e.MaintenanceDate)
+                    .HasColumnType("date")
+                    .HasColumnName("maintenance_date");
+
+                entity.Property(e => e.NextCheckupDate)
+                    .HasColumnType("date")
+                    .HasColumnName("next_checkup_date");
+
+                entity.Property(e => e.NextMaintenanceDate)
+                    .HasColumnType("date")
+                    .HasColumnName("next_maintenance_date");
+
+                entity.Property(e => e.PointId).HasColumnName("point_id");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.HasOne(d => d.Equipment)
+                    .WithMany(p => p.EquipmentStatuses)
+                    .HasForeignKey(d => d.EquipmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equipment_status_equipment");
+
+                entity.HasOne(d => d.Maintainer)
+                    .WithMany(p => p.EquipmentStatuses)
+                    .HasForeignKey(d => d.MaintainerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equipment_status_employees");
+
+                entity.HasOne(d => d.Point)
+                    .WithMany(p => p.EquipmentStatuses)
+                    .HasForeignKey(d => d.PointId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_equipment_status_points");
             });
 
             modelBuilder.Entity<EquipmentType>(entity =>

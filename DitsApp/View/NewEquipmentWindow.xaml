@@ -75,6 +75,21 @@
                 </TextBlock>
                 <DatePicker x:Name="InstallDatePicker"></DatePicker>
             </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Кто получил" 
+                           Margin="0 0 10 0" 
+                           MinWidth="120"
+                           MaxWidth="200">
+                </TextBlock>
+
+                <ComboBox x:Name="ComboBoxEmployee"  
+                          MinWidth="120" 
+                          MaxWidth="200"
+                          SelectedValuePath="Id"
+                          DisplayMemberPath="Name">
+                </ComboBox>
+            </StackPanel>
 
 
             <StackPanel Orientation="Horizontal" Margin="10">

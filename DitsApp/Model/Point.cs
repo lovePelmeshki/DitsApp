@@ -9,7 +9,7 @@ namespace DitsApp.Model
     {
         public Point()
         {
-            Equipment = new HashSet<Equipment>();
+            EquipmentStatuses = new HashSet<EquipmentStatus>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace DitsApp.Model
         public string PointName { get; set; }
 
         public virtual Location Location { get; set; }
-        public virtual ICollection<Equipment> Equipment { get; set; }
+        public virtual ICollection<EquipmentStatus> EquipmentStatuses { get; set; }
     }
 }

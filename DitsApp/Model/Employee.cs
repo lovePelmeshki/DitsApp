@@ -9,6 +9,7 @@ namespace DitsApp.Model
     {
         public Employee()
         {
+            EquipmentStatuses = new HashSet<EquipmentStatus>();
             EventCreators = new HashSet<Event>();
             EventRespoinders = new HashSet<Event>();
             Maintenances = new HashSet<Maintenance>();
@@ -21,6 +22,7 @@ namespace DitsApp.Model
         public int DepartmentId { get; set; }
 
         public virtual Department Department { get; set; }
+        public virtual ICollection<EquipmentStatus> EquipmentStatuses { get; set; }
         public virtual ICollection<Event> EventCreators { get; set; }
         public virtual ICollection<Event> EventRespoinders { get; set; }
         public virtual ICollection<Maintenance> Maintenances { get; set; }

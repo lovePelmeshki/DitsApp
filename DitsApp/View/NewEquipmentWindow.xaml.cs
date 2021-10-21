@@ -2,6 +2,7 @@
 using System.Linq;
 using DitsApp.Model;
 using System.Windows.Controls;
+using System;
 
 namespace DitsApp.View
 {
@@ -13,6 +14,7 @@ namespace DitsApp.View
         private int _selectedClassId;
         private int _selectedTypeId;
         private int _installDuration;
+        private int _maintenanceDuration;
         public NewEquipmentWindow()
         {
             InitializeComponent();
@@ -26,6 +28,14 @@ namespace DitsApp.View
                                   Name = c.ClassName
                               };
                 ComboBoxClass.ItemsSource = classes.ToList();
+
+                var employees = from e in db.Employees
+                                select new
+                                {
+                                    Id = e.Id,
+                                    Name = e.Lastname
+                                };
+                ComboBoxEmployee.ItemsSource = employees.ToList();
             }
         }
 
@@ -33,15 +43,29 @@ namespace DitsApp.View
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
+                string equipmentId = TextBoxId.Text;
+                DateTime checkupDate = CheckupDatePicker.DisplayDate;
+                DateTime maintenanceDate = InstallDatePicker.DisplayDate;
+
                 db.Equipment.Add(new Equipment
                 {
-                    Id = TextBoxId.Text,
-                    TypeId = (int)ComboBoxType.SelectedValue,
+                    Id = equipmentId,
+                    TypeId = (int)ComboBoxType.SelectedValue
+                                       
+                });
+                db.EquipmentStatuses.Add(new EquipmentStatus
+                {
+                    EquipmentId = equipmentId,
                     PointId = 13,
                     Status = 1,
-                    CheckupDate = CheckupDatePicker.DisplayDate,
-                    NextCheckupDate = CheckupDatePicker.DisplayDate.AddMonths(_installDuration),
-                    InstallDate = InstallDatePicker.DisplayDate                    
+                    ChangeDate = DateTime.Now,
+                    CheckupDate = checkupDate,
+                    NextCheckupDate = checkupDate.AddMonths(_installDuration),
+                    MaintenanceDate = maintenanceDate,
+                    NextMaintenanceDate = maintenanceDate.AddMonths(_maintenanceDuration),
+                    InstallDate = maintenanceDate,
+                    MaintainerId = (int)ComboBoxEmployee.SelectedValue
+
                 });
                 db.SaveChanges();
             }
@@ -72,10 +96,17 @@ namespace DitsApp.View
 
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                var types = from type in db.EquipmentTypes
+                var installDuration = from type in db.EquipmentTypes
                             where type.Id == _selectedTypeId
                             select type.InstallDuration;
-                _installDuration = (int)types.FirstOrDefault();
+
+                var maintenanceDuration = from type in db.EquipmentTypes
+                                          where type.Id == _selectedTypeId
+                                          select type.MaintenanceDuration;
+
+                _installDuration = (int)installDuration.FirstOrDefault();
+                _maintenanceDuration = (int)maintenanceDuration.FirstOrDefault();
+
 
             }
         }

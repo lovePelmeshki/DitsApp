@@ -49,32 +49,11 @@ namespace DitsApp
                                      join type in db.EquipmentTypes
                                      on equipment.TypeId equals type.Id
 
-                                     join point in db.Points
-                                     on equipment.PointId equals point.Id
-
-                                     join location in db.Locations
-                                     on point.LocationId equals location.Id
-
-                                     join station in db.Stations
-                                     on location.StationId equals station.Id
-
-                                     join line in db.Lines
-                                     on station.LineId equals line.Id
-
                                      select new
                                      {
                                          Id = equipment.Id,
                                          Type = type.TypeName,
-                                         Line = line.LineName,
-                                         Station = station.StationName,
-                                         Location = location.LocationName,
-                                         Point = point.PointName,
-                                         Status = equipment.Status,
-                                         CheckupDate = equipment.CheckupDate,
-                                         NextCheckupDate = equipment.NextCheckupDate,
-                                         MaintenanceDate = equipment.MaintenanceDate,
-                                         NextMaintenanceDate = equipment.NextMaintenanceDate,
-                                         InstallDate = equipment.InstallDate
+                                         
                                      };
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
 
@@ -191,39 +170,7 @@ namespace DitsApp
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                var queryEquipment = from equipment in db.Equipment
-                                     join type in db.EquipmentTypes
-                                     on equipment.TypeId equals type.Id
-
-                                     join point in db.Points
-                                     on equipment.PointId equals point.Id
-
-                                     join location in db.Locations
-                                     on point.LocationId equals location.Id
-
-                                     join station in db.Stations
-                                     on location.StationId equals station.Id
-
-                                     join line in db.Lines
-                                     on station.LineId equals line.Id
-
-                                     select new
-                                     {
-                                         Id = equipment.Id,
-                                         Type = type.TypeName,
-                                         Line = line.LineName,
-                                         Station = station.StationName,
-                                         Location = location.LocationName,
-                                         Point = point.PointName,
-                                         Status = equipment.Status,
-                                         CheckupDate = equipment.CheckupDate,
-                                         NextCheckupDate = equipment.NextCheckupDate,
-                                         MaintenanceDate = equipment.MaintenanceDate,
-                                         NextMaintenanceDate = equipment.NextMaintenanceDate,
-                                         InstallDate = equipment.InstallDate
-                                     };
-                DataGridEquipment.ItemsSource = queryEquipment.ToList();
-
+                
             }
 
         }
