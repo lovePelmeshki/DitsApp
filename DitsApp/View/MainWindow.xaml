@@ -6,19 +6,44 @@
         xmlns:local="clr-namespace:DitsApp"
         mc:Ignorable="d"
         Title="MainWindow" Width="1200" Height="800">
-    <TabControl>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="40"/>
 
-        <!--Employees-->
-        <TabItem Header="Employees" Width="120" Height="40">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        </Style>
+    </Window.Resources>
 
-                <DataGrid x:Name="EmployeeDataGrid"
+    <DockPanel>
+        <Menu Height="25" DockPanel.Dock="Top" >
+            <MenuItem Header="Добавить">
+                <MenuItem Header="Линия" Click="Menu_Lines_Click"></MenuItem>
+                <MenuItem Header="Станция"></MenuItem>
+                <MenuItem Header="Локация"></MenuItem>
+                <MenuItem Header="Точка"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Класс оборудования"></MenuItem>
+                <MenuItem Header="Тип оборудования"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Отдел"></MenuItem>
+                <MenuItem Header="Работник"></MenuItem>
+                
+            </MenuItem>
+
+        </Menu>
+        <TabControl>
+
+            <!--Employees-->
+            <TabItem Header="Employees" Width="120" Height="40">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="EmployeeDataGrid"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
                   HorizontalAlignment="Center" 
@@ -32,15 +57,15 @@
                   SelectionUnit="FullRow"
                   SelectionMode="Single"
                   >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Grid.Row="0">
-                    <Slider x:Name="slider" HorizontalAlignment="Center"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="0">
+                        <Slider x:Name="slider" HorizontalAlignment="Center"
                 VerticalAlignment="Top" 
                 Margin="15"
                 Orientation="Horizontal" 
@@ -52,81 +77,81 @@
                 Delay="500"
                 IsSnapToTickEnabled="True">
 
-                    </Slider>
-                    <TextBox x:Name="textbox" 
+                        </Slider>
+                        <TextBox x:Name="textbox" 
                      Width="45" 
                      Height="45" 
                      Text="{Binding ElementName=slider, Path=Value,Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel Grid.Row="2" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-                        <Button Content="OK" 
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                            <Button Content="OK" 
                 Grid.Row="3" 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Margin="10"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
 
 
-            </Grid>
-        </TabItem>
+                </Grid>
+            </TabItem>
 
-        <!--Equipment-->
-        <TabItem Header="Equipment" Width="120" Height="40">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                
-                <DataGrid x:Name="DataGridEquipment"
+            <!--Equipment-->
+            <TabItem Header="Equipment" Width="120" Height="40">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="DataGridEquipment"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
                           SelectedValuePath="Id"
                   Grid.Row="0" Grid.ColumnSpan="2" MouseDoubleClick="DataGridEquipment_MouseDoubleClick" >
-                </DataGrid>
-                <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
-                    
-                    <Button x:Name="ButtonAddEquipment" Margin="5"
+                    </DataGrid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
+
+                        <Button x:Name="ButtonAddEquipment" Margin="5"
                     Content="+ New Equipment"
                     Background="#FF0B930B"
                     Click="ButtonAddEquipment_Click"/>
-                    
-                    <Button x:Name="RefreshEquipmentButton" Margin="5"
+
+                        <Button x:Name="RefreshEquipmentButton" Margin="5"
                     Content="Refresh"
                     Click="RefreshEquipmentButton_Click"/>
-                </StackPanel>
-                
-            </Grid>
+                    </StackPanel>
 
-        </TabItem>
+                </Grid>
 
-        <!--Events-->
-        <TabItem Header="Events" Width="120" Height="40">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <DataGrid x:Name="DataGridEvents" Grid.Row="0"
+            </TabItem>
+
+            <!--Events-->
+            <TabItem Header="Events" Width="120" Height="40">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="DataGridEvents" Grid.Row="0"
                           MouseDoubleClick="DataGridEvents_MouseDoubleClick"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
                           SelectedValuePath="Id"
                          >
-                </DataGrid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
                             Margin="10" HorizontalAlignment="Center">
-                    <Button x:Name="AddNewEventButton" Grid.Row="1"
+                        <Button x:Name="AddNewEventButton" Grid.Row="1"
                         Width="120" Height="40"
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Content="Add New Event" Click="AddNewEventButton_Click"/>
 
-                    <Button x:Name="RefreshButton" Grid.Row="1"
+                        <Button x:Name="RefreshButton" Grid.Row="1"
                             Margin="10"
                         Width="120" Height="40"
                         HorizontalAlignment="Center"
@@ -134,42 +159,44 @@
                         Content="Refresh" Click="RefreshButton_Click" 
                         
                         />
-                </StackPanel>
+                    </StackPanel>
 
-            </Grid>
+                </Grid>
 
-        </TabItem>
+            </TabItem>
 
-        <!--Maintenances-->
-        <TabItem Header="Maintenances" Width="120" Height="40">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="21*"/>
-                    <ColumnDefinition Width="377*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <DataGrid x:Name="MaintenancesDataGrid" Grid.Row="0" Grid.ColumnSpan="2">
+            <!--Maintenances-->
+            <TabItem Header="Maintenances" Width="120" Height="40">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="21*"/>
+                        <ColumnDefinition Width="377*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="MaintenancesDataGrid" Grid.Row="0" Grid.ColumnSpan="2">
 
-                </DataGrid>
-                <Button x:Name="AddNewMaintenance"
+                    </DataGrid>
+                    <Button x:Name="AddNewMaintenance"
                         Content="Add New Maintenance"
                         Grid.Row="1"
                         Width="120"
                         Height="40"
                         VerticalAlignment="Top"
                         Margin="474,20,537,0" Grid.Column="1"/>
-            </Grid>
-        </TabItem>
-        
-        <!--Stations-->
-        <TabItem Header="Stations" Width="120" Height="40">
-            <DataGrid x:Name="DataGridStations" Margin="20">
-                
-            </DataGrid>
-        </TabItem>
-    </TabControl>
+                </Grid>
+            </TabItem>
+
+            <!--Stations-->
+            <TabItem Header="Stations" Width="120" Height="40">
+                <DataGrid x:Name="DataGridStations" Margin="20">
+
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
 
 </Window>

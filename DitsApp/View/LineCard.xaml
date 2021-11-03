@@ -1,0 +1,37 @@
+﻿<Window x:Class="DitsApp.View.LineCard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DitsApp.View"
+        mc:Ignorable="d"
+        Title="LineCard" Height="450" Width="800">
+    <StackPanel>
+        <Expander Header="Добавить новую линию"
+                  HorizontalAlignment="Center"
+                  MinWidth="250"
+                  MaxWidth="800"
+                  Margin="10">
+            <StackPanel>
+                <Label Content="Номер линии"/>
+                <TextBox x:Name="LineNumTextBox"/>
+                <Label Content="Название линии"/>
+                <TextBox x:Name="LineNameTextBox"/>
+                <Button x:Name="AddButton" Content="Add" Margin="10" Click="AddButton_Click"/>
+
+            </StackPanel>
+        </Expander>
+        <DataGrid Name="LinesDataGrid"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False"
+                  SelectedValuePath="Id"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Path=Id}" Width="*"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window>

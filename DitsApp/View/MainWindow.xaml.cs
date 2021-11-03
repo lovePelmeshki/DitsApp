@@ -118,8 +118,8 @@ namespace DitsApp
         private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
-            var employee = dataGrid.SelectedItem as EmployeeInfo;
-            var infoWindow = new EmployeeInfoWindow(employee);
+            var selectedEmployee = dataGrid.SelectedItem as EmployeeInfo;
+            var infoWindow = new EmployeeInfoWindow(selectedEmployee);
             infoWindow.Show();
 
 
@@ -230,6 +230,12 @@ namespace DitsApp
             DataGrid dataGrid = sender as DataGrid;
             int selectedEquipmentId = (int)dataGrid.SelectedValue;
             var window = new EquipmentCard(selectedEquipmentId);
+            window.Show();
+        }
+
+        private void Menu_Lines_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new LineCard();
             window.Show();
         }
     }
