@@ -10,7 +10,6 @@ namespace DitsApp.Model
         public Equipment()
         {
             EquipmentStatuses = new HashSet<EquipmentStatus>();
-            Events = new HashSet<Event>();
             Maintenances = new HashSet<Maintenance>();
         }
 
@@ -20,7 +19,6 @@ namespace DitsApp.Model
 
         public virtual EquipmentType Type { get; set; }
         public virtual ICollection<EquipmentStatus> EquipmentStatuses { get; set; }
-        public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Maintenance> Maintenances { get; set; }
     }
 }

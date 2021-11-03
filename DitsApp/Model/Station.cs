@@ -9,6 +9,7 @@ namespace DitsApp.Model
     {
         public Station()
         {
+            Events = new HashSet<Event>();
             Locations = new HashSet<Location>();
         }
 
@@ -17,6 +18,7 @@ namespace DitsApp.Model
         public int LineId { get; set; }
 
         public virtual Line Line { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
     }
 }

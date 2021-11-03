@@ -37,13 +37,13 @@ namespace DitsApp.Model
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=PELMESHKI_PC\\SQLEXPRESS;Initial Catalog=TestDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Server=PELMESHKI_PC\\SQLEXPRESS;Initial Catalog=TestDB;Integrated Security=True;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
 
             modelBuilder.Entity<Department>(entity =>
             {
@@ -84,7 +84,7 @@ namespace DitsApp.Model
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.DepartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Employees_Departments");
+                    .HasConstraintName("FK_employees_departments");
             });
 
             modelBuilder.Entity<Equipment>(entity =>
@@ -104,7 +104,7 @@ namespace DitsApp.Model
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Equipment_EquipmentTypes");
+                    .HasConstraintName("FK_equipment_equipment_types");
             });
 
             modelBuilder.Entity<EquipmentClass>(entity =>
@@ -126,31 +126,31 @@ namespace DitsApp.Model
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ChangeDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("change_date");
 
                 entity.Property(e => e.CheckupDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("checkup_date");
 
                 entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
 
                 entity.Property(e => e.InstallDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("install_date");
 
                 entity.Property(e => e.MaintainerId).HasColumnName("maintainer_id");
 
                 entity.Property(e => e.MaintenanceDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("maintenance_date");
 
                 entity.Property(e => e.NextCheckupDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("next_checkup_date");
 
                 entity.Property(e => e.NextMaintenanceDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("next_maintenance_date");
 
                 entity.Property(e => e.PointId).HasColumnName("point_id");
@@ -202,17 +202,19 @@ namespace DitsApp.Model
                     .WithMany(p => p.EquipmentTypes)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EquipmentTypes_EquipmentClasses");
+                    .HasConstraintName("FK_equipment_types_equipment_classes");
             });
 
             modelBuilder.Entity<Event>(entity =>
             {
                 entity.ToTable("events");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.CloseDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("close_date");
 
                 entity.Property(e => e.Comment)
@@ -220,9 +222,8 @@ namespace DitsApp.Model
                     .HasColumnName("comment");
 
                 entity.Property(e => e.CreateDate)
-                    .HasColumnType("date")
-                    .HasColumnName("create_date")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_date");
 
                 entity.Property(e => e.CreatorId).HasColumnName("creator_id");
 
@@ -233,42 +234,26 @@ namespace DitsApp.Model
                 entity.Property(e => e.RespoinderId).HasColumnName("respoinder_id");
 
                 entity.Property(e => e.RespondDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("respond_date");
 
                 entity.Property(e => e.StationId).HasColumnName("station_id");
 
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.TypeId).HasColumnName("type_id");
 
-                entity.HasOne(d => d.Creator)
-                    .WithMany(p => p.EventCreators)
-                    .HasForeignKey(d => d.CreatorId)
-                    .HasConstraintName("FK_Events_Employees1");
-
-                entity.HasOne(d => d.Equipment)
+                entity.HasOne(d => d.Station)
                     .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.EquipmentId)
-                    .HasConstraintName("FK_Events_Equipment");
-
-                entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Events_Locations");
-
-                entity.HasOne(d => d.Respoinder)
-                    .WithMany(p => p.EventRespoinders)
-                    .HasForeignKey(d => d.RespoinderId)
-                    .HasConstraintName("FK_Events_Employees");
+                    .HasForeignKey(d => d.StationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_events_stations");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Events_EventTypes");
+                    .HasConstraintName("FK_events_event_types");
             });
 
             modelBuilder.Entity<EventType>(entity =>
@@ -291,7 +276,9 @@ namespace DitsApp.Model
             {
                 entity.ToTable("lines");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.LineName)
                     .IsRequired()
@@ -316,7 +303,7 @@ namespace DitsApp.Model
                     .WithMany(p => p.Locations)
                     .HasForeignKey(d => d.StationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Locations_Stations");
+                    .HasConstraintName("FK_locations_stations");
             });
 
             modelBuilder.Entity<Maintenance>(entity =>
@@ -330,7 +317,7 @@ namespace DitsApp.Model
                     .HasColumnName("comment");
 
                 entity.Property(e => e.DurationDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("duration_date");
 
                 entity.Property(e => e.EquipmentId).HasColumnName("equipment_id");
@@ -338,20 +325,20 @@ namespace DitsApp.Model
                 entity.Property(e => e.MainteinerId).HasColumnName("mainteiner_id");
 
                 entity.Property(e => e.MaintenanceDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("maintenance_date");
 
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.Maintenances)
                     .HasForeignKey(d => d.EquipmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Maintenances_Equipment");
+                    .HasConstraintName("FK_maintenances_equipment");
 
                 entity.HasOne(d => d.Mainteiner)
                     .WithMany(p => p.Maintenances)
                     .HasForeignKey(d => d.MainteinerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Maintenances_Employees");
+                    .HasConstraintName("FK_maintenances_employees");
             });
 
             modelBuilder.Entity<Point>(entity =>
@@ -371,7 +358,7 @@ namespace DitsApp.Model
                     .WithMany(p => p.Points)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Points_Locations");
+                    .HasConstraintName("FK_points_locations");
             });
 
             modelBuilder.Entity<Station>(entity =>
@@ -391,19 +378,17 @@ namespace DitsApp.Model
                     .WithMany(p => p.Stations)
                     .HasForeignKey(d => d.LineId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Stations_Lines");
+                    .HasConstraintName("FK_stations_lines");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Hash)
-                    .HasColumnType("text")
+                    .HasColumnType("ntext")
                     .HasColumnName("hash");
 
                 entity.Property(e => e.Permission).HasColumnName("permission");
@@ -412,8 +397,6 @@ namespace DitsApp.Model
                     .HasMaxLength(255)
                     .HasColumnName("user_name");
             });
-
-            modelBuilder.HasSequence<int>("SalesOrderNumber", "SalesLT");
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -20,10 +20,7 @@ namespace DitsApp.Model
         public int? CreatorId { get; set; }
         public string Comment { get; set; }
 
-        public virtual Employee Creator { get; set; }
-        public virtual Equipment Equipment { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual Employee Respoinder { get; set; }
+        public virtual Station Station { get; set; }
         public virtual EventType Type { get; set; }
     }
 }
