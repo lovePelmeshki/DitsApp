@@ -100,11 +100,10 @@
 
             <!--Equipment-->
             <TabItem Header="Equipment" Width="120" Height="40">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBox x:Name="searchTextBox" Height="20" Margin="10"/>
+
+
 
                     <DataGrid x:Name="DataGridEquipment"
                           SelectionMode="Single"
@@ -124,7 +123,7 @@
                     Click="RefreshEquipmentButton_Click"/>
                     </StackPanel>
 
-                </Grid>
+                </StackPanel>
 
             </TabItem>
 

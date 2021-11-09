@@ -1,5 +1,6 @@
 ﻿using DitsApp.Model;
 using DitsApp.View;
+using DitsApp.View.Cards;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
