@@ -65,13 +65,14 @@
                                     <Label Content="Участок"></Label>
                                     <ComboBox x:Name="EditDepartmentComboBox"
                                               SelectedValuePath="Id"
-                                              DisplayMemberPath="DepartmentName"/>
+                                              DisplayMemberPath="DepartmentName"
+                                              SelectionChanged="EditDepartmentComboBox_SelectionChanged"/>
                                     <Button x:Name="UpdateEmployeeButton" Content="Редактировать" Click="UpdateEmployeeButton_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
-
+                    <TextBox x:Name="EmployeeSearchTextBox"  Height="20" Margin="10" IsInactiveSelectionHighlightEnabled="True" IsManipulationEnabled="True" ToolTip="tooltip"/>
 
                     <DataGrid x:Name="EmployeeDataGrid"
                   Grid.Row="1"
@@ -110,7 +111,7 @@
             <!--Equipment-->
             <TabItem Header="Equipment" Width="120" Height="40">
                 <StackPanel>
-                    <TextBox x:Name="searchTextBox" Height="20" Margin="10"/>
+                    <TextBox x:Name="EquipmentSearchTextBox" Height="20" Margin="10"/>
 
 
 

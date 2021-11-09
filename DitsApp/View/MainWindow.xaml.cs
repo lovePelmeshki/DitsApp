@@ -171,8 +171,8 @@ namespace DitsApp
             AddDepartmentComboBox.SelectedIndex = -1;
         }
 
-            // Employee DoubleClick 
-            private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        // Employee DoubleClick 
+        private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
             var selectedEmployee = dataGrid.SelectedItem as EmployeeInfo;
@@ -232,32 +232,8 @@ namespace DitsApp
                     };
                     db.Employees.Add(newEmployee);
                     db.SaveChanges();
-
-                    //обнуление форм
                     RefreshForms();
-                    //_selectedDepartmentId = -1;
-                    //_selectedEmployeeId = -1;
-                    //AddLastnameTextBox.Text = "";
-                    //AddNameTextBox.Text = "";
-                    //AddMiddlenameTextBox.Text = "";
-                    //AddDepartmentComboBox.SelectedIndex = -1;
-
-                    //обновление источника
                     RefreshEmployeeDataSources();
-
-                    //EmployeeDataGrid.ItemsSource = null;
-                    //var queryAllEmployees = from employee in db.Employees
-                    //                        join department in db.Departments
-                    //                        on employee.DepartmentId equals department.Id
-                    //                        select new EmployeeInfo()
-                    //                        {
-                    //                            Id = employee.Id,
-                    //                            Lastname = employee.Lastname,
-                    //                            Firstname = employee.Firstname,
-                    //                            Middlename = employee.Middlename,
-                    //                            Department = department.DepartmentName
-                    //                        };
-                    //EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
 
 
                 }
@@ -267,12 +243,30 @@ namespace DitsApp
 
         private void UpdateEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
-            using (ditsappdbContext db = new ditsappdbContext())
-            {
 
+            if (_selectedDepartmentId > 0 && _selectedEmployeeId>0)
+            {
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    Employee updateEmployee = (from emp in db.Employees
+                                               where emp.Id == _selectedEmployeeId
+                                               select emp).FirstOrDefault();
+
+                    updateEmployee.Lastname = EditLastnameTextBox.Text;
+                    updateEmployee.Firstname = EditNameTextBox.Text;
+                    updateEmployee.Middlename = EditMiddlenameTextBox.Text;
+                    updateEmployee.DepartmentId = _selectedDepartmentId;
+ 
+                    db.SaveChanges();
+                    RefreshForms();
+                    RefreshEmployeeDataSources();
+                }
             }
 
+
         }
+
+        //Delete Employee
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -280,8 +274,8 @@ namespace DitsApp
                 if (_selectedEmployeeId > 0)
                 {
                     Employee selectedEmployee = (from emp in db.Employees
-                                            where emp.Id == _selectedEmployeeId
-                                            select emp).FirstOrDefault();
+                                                 where emp.Id == _selectedEmployeeId
+                                                 select emp).FirstOrDefault();
                     db.Employees.Remove(selectedEmployee);
                     db.SaveChanges();
                     RefreshForms();
@@ -295,6 +289,14 @@ namespace DitsApp
             if (AddDepartmentComboBox.SelectedValue != null)
             {
                 _selectedDepartmentId = (int)AddDepartmentComboBox.SelectedValue;
+            }
+        }
+
+        private void EditDepartmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EditDepartmentComboBox.SelectedValue != null)
+            {
+                _selectedDepartmentId = (int)EditDepartmentComboBox.SelectedValue;
             }
         }
         #endregion
