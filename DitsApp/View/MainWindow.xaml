@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DitsApp"
         mc:Ignorable="d"
-        Title="MainWindow" Width="1200" Height="800">
+        Title="MainWindow" WindowState="Maximized" >
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="MinHeight" Value="40"/>
-
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
         </Style>
     </Window.Resources>
 
@@ -35,27 +35,59 @@
 
             <!--Employees-->
             <TabItem Header="Employees" Width="120" Height="40">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <StackPanel>
+                    <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <GroupBox Header="Добавить" Margin="5">
+                            <StackPanel MinWidth="200">
+                                <Label Content="Фамилия"></Label>
+                                <TextBox x:Name="AddLastnameTextBox"></TextBox>
+                                <Label Content="Имя"></Label>
+                                <TextBox x:Name="AddNameTextBox"></TextBox>
+                                <Label Content="Отчество"></Label>
+                                <TextBox x:Name="AddMiddlenameTextBox"></TextBox>
+                                <Label Content="Участок"></Label>
+                                <ComboBox x:Name="AddDepartmentComboBox" 
+                                          SelectedValuePath="Id"
+                                          DisplayMemberPath="DepartmentName"
+                                          SelectionChanged="AddDepartmentComboBox_SelectionChanged"/>
+                                <Button x:Name="AddEmployeeButton" Content="Добавить" Click="AddEmployeeButton_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Редактировать" Margin="5">
+                            <StackPanel>
+                                <StackPanel MinWidth="200">
+                                    <Label Content="Фамилия"></Label>
+                                    <TextBox x:Name="EditLastnameTextBox"></TextBox>
+                                    <Label Content="Имя"></Label>
+                                    <TextBox x:Name="EditNameTextBox"></TextBox>
+                                    <Label Content="Отчество"></Label>
+                                    <TextBox x:Name="EditMiddlenameTextBox"></TextBox>
+                                    <Label Content="Участок"></Label>
+                                    <ComboBox x:Name="EditDepartmentComboBox"
+                                              SelectedValuePath="Id"
+                                              DisplayMemberPath="DepartmentName"/>
+                                    <Button x:Name="UpdateEmployeeButton" Content="Редактировать" Click="UpdateEmployeeButton_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+
 
                     <DataGrid x:Name="EmployeeDataGrid"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
                   HorizontalAlignment="Center" 
-                  AlternatingRowBackground="LightGray" 
-                  MinRowHeight="{Binding ElementName=slider, Path=Value, Mode=OneWay}" 
+                  AlternatingRowBackground="LightGray"
                   MaxWidth="1200"
                   MinWidth="600"
                   GridLinesVisibility="None"
                   Margin="10"
                   MouseDoubleClick="EmployeeDataGrid_MouseDoubleClick"
+                  SelectedCellsChanged="EmployeeDataGrid_SelectedCellsChanged"
                   SelectionUnit="FullRow"
                   SelectionMode="Single"
+                              SelectedValuePath="Id"
+                              CanUserAddRows="False"
                   >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
@@ -64,38 +96,15 @@
                             <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Grid.Row="0">
-                        <Slider x:Name="slider" HorizontalAlignment="Center"
-                VerticalAlignment="Top" 
-                Margin="15"
-                Orientation="Horizontal" 
-                Minimum="5"
-                Maximum="100" Height="41" Width="248"
-                Value="{Binding ElementName=textbox, Path=Text, Mode=TwoWay}"
-                TickPlacement="BottomRight"
-                TickFrequency="10"
-                Delay="500"
-                IsSnapToTickEnabled="True">
-
-                        </Slider>
-                        <TextBox x:Name="textbox" 
-                     Width="45" 
-                     Height="45" 
-                     Text="{Binding ElementName=slider, Path=Value,Mode=TwoWay}" />
-                    </StackPanel>
                     <StackPanel Grid.Row="2" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-                            <Button Content="OK" 
-                Grid.Row="3" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Margin="10"/>
+                            <Button Content="Delete" Name="DeleteButton" Click="DeleteButton_Click"/>
                         </StackPanel>
                     </StackPanel>
 
 
 
-                </Grid>
+                </StackPanel>
             </TabItem>
 
             <!--Equipment-->

@@ -21,7 +21,9 @@ namespace DitsApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int _minRowHeigth;
+        private int _selectedEmployeeId = -1;
+        private int _selectedDepartmentId = -1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,18 +31,25 @@ namespace DitsApp
             {
                 //employee 
                 #region Запрос Employees
-                var queryAllEmployees = from employee in db.Employees
-                                        join department in db.Departments
-                                        on employee.DepartmentId equals department.Id
-                                        select new EmployeeInfo()
-                                        {
-                                            Id = employee.Id,
-                                            Lastname = employee.Lastname,
-                                            Firstname = employee.Firstname,
-                                            Middlename = employee.Middlename,
-                                            Department = department.DepartmentName
-                                        };
-                EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
+                RefreshEmployeeDataSources();
+                //var queryAllEmployees = from employee in db.Employees
+                //                        join department in db.Departments
+                //                        on employee.DepartmentId equals department.Id
+                //                        select new EmployeeInfo()
+                //                        {
+                //                            Id = employee.Id,
+                //                            Lastname = employee.Lastname,
+                //                            Firstname = employee.Firstname,
+                //                            Middlename = employee.Middlename,
+                //                            Department = department.DepartmentName
+                //                        };
+                //EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
+
+                //var departments = from dep in db.Departments
+                //                  select dep;
+                //AddDepartmentComboBox.ItemsSource = departments.ToList();
+                //EditDepartmentComboBox.ItemsSource = departments.ToList();
+
                 #endregion
 
                 //Equipment 
@@ -50,7 +59,7 @@ namespace DitsApp
                                      join type in db.EquipmentTypes
                                      on e.TypeId equals type.Id
 
-                                     join s in db.EquipmentStatuses 
+                                     join s in db.EquipmentStatuses
                                      on e.Id equals s.EquipmentId
 
                                      join point in db.Points
@@ -67,11 +76,11 @@ namespace DitsApp
                                          Id = e.Id,
                                          Serial = e.SerialNumber,
                                          Type = type.TypeName,
-                                         Status = s.Status ,
+                                         Status = s.Status,
                                          Station = station.StationName,
                                          Location = loc.LocationName,
                                          Point = point.PointName,
-                                         
+
                                      };
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
 
@@ -95,7 +104,7 @@ namespace DitsApp
                                       Id = ev.Id,
                                       Type = evType.TypeName,
                                       Station = station.StationName,
-                                      Location = location == null? "---" : location.LocationName
+                                      Location = location == null ? "---" : location.LocationName
                                   };
                 DataGridEvents.ItemsSource = queryEvents.ToList();
                 #endregion
@@ -115,17 +124,185 @@ namespace DitsApp
                 #endregion
             }
         }
-        // Employee DoubleClick 
-        private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+
+
+
+
+        #region Обработка событий Employee
+
+        private void RefreshEmployeeDataSources()
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                //employee 
+                #region Запрос Employees
+                EmployeeDataGrid.ItemsSource = null;
+                var queryAllEmployees = from employee in db.Employees
+                                        join department in db.Departments
+                                        on employee.DepartmentId equals department.Id
+                                        select new EmployeeInfo()
+                                        {
+                                            Id = employee.Id,
+                                            Lastname = employee.Lastname,
+                                            Firstname = employee.Firstname,
+                                            Middlename = employee.Middlename,
+                                            Department = department.DepartmentName
+                                        };
+                EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
+
+                var departments = from dep in db.Departments
+                                  select dep;
+                AddDepartmentComboBox.ItemsSource = departments.ToList();
+                EditDepartmentComboBox.ItemsSource = departments.ToList();
+
+            }
+        }
+        private void RefreshForms()
+        {
+            _selectedDepartmentId = -1;
+            _selectedEmployeeId = -1;
+            AddLastnameTextBox.Text = "";
+            AddNameTextBox.Text = "";
+            AddMiddlenameTextBox.Text = "";
+            EditLastnameTextBox.Text = "";
+            EditMiddlenameTextBox.Text = "";
+            EditNameTextBox.Text = "";
+            AddDepartmentComboBox.SelectedIndex = -1;
+        }
+
+            // Employee DoubleClick 
+            private void EmployeeDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
             var selectedEmployee = dataGrid.SelectedItem as EmployeeInfo;
             var infoWindow = new EmployeeInfoWindow(selectedEmployee);
             infoWindow.Show();
+        }
+
+
+        // Выбор Employee и отображение в EditGroupBox
+        private void EmployeeDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            if (dataGrid.SelectedValue != null)
+            {
+                _selectedEmployeeId = (int)dataGrid.SelectedValue;
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    var selectedEmployee = (from emp in db.Employees
+                                            where emp.Id == _selectedEmployeeId
+
+                                            from dept in db.Departments
+                                            where emp.DepartmentId == dept.Id
+                                            select new
+                                            {
+                                                emp.Lastname,
+                                                emp.Firstname,
+                                                emp.Middlename,
+                                                DepartmentId = dept.Id,
+                                                DepartmentName = dept.DepartmentName
+                                            })
+                                            .FirstOrDefault();
+                    EditLastnameTextBox.Text = selectedEmployee.Lastname;
+                    EditNameTextBox.Text = selectedEmployee.Firstname;
+                    EditMiddlenameTextBox.Text = selectedEmployee.Middlename;
+                    EditDepartmentComboBox.SelectedValue = selectedEmployee.DepartmentId;
+                    _selectedDepartmentId = selectedEmployee.DepartmentId;
+                }
+            }
 
 
         }
 
+
+        //Добавить нового Employee
+        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedDepartmentId > 0)
+            {
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    Employee newEmployee = new Employee()
+                    {
+                        Lastname = AddLastnameTextBox.Text,
+                        Firstname = AddNameTextBox.Text,
+                        Middlename = AddMiddlenameTextBox.Text,
+                        DepartmentId = _selectedDepartmentId
+                    };
+                    db.Employees.Add(newEmployee);
+                    db.SaveChanges();
+
+                    //обнуление форм
+                    RefreshForms();
+                    //_selectedDepartmentId = -1;
+                    //_selectedEmployeeId = -1;
+                    //AddLastnameTextBox.Text = "";
+                    //AddNameTextBox.Text = "";
+                    //AddMiddlenameTextBox.Text = "";
+                    //AddDepartmentComboBox.SelectedIndex = -1;
+
+                    //обновление источника
+                    RefreshEmployeeDataSources();
+
+                    //EmployeeDataGrid.ItemsSource = null;
+                    //var queryAllEmployees = from employee in db.Employees
+                    //                        join department in db.Departments
+                    //                        on employee.DepartmentId equals department.Id
+                    //                        select new EmployeeInfo()
+                    //                        {
+                    //                            Id = employee.Id,
+                    //                            Lastname = employee.Lastname,
+                    //                            Firstname = employee.Firstname,
+                    //                            Middlename = employee.Middlename,
+                    //                            Department = department.DepartmentName
+                    //                        };
+                    //EmployeeDataGrid.ItemsSource = queryAllEmployees.ToList();
+
+
+                }
+            }
+
+        }
+
+        private void UpdateEmployeeButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+
+            }
+
+        }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                if (_selectedEmployeeId > 0)
+                {
+                    Employee selectedEmployee = (from emp in db.Employees
+                                            where emp.Id == _selectedEmployeeId
+                                            select emp).FirstOrDefault();
+                    db.Employees.Remove(selectedEmployee);
+                    db.SaveChanges();
+                    RefreshForms();
+                    RefreshEmployeeDataSources();
+                }
+            }
+        }
+
+        private void AddDepartmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AddDepartmentComboBox.SelectedValue != null)
+            {
+                _selectedDepartmentId = (int)AddDepartmentComboBox.SelectedValue;
+            }
+        }
+        #endregion
+        #endregion
+
+
+
+        #region Обработчики Event
         //Добавить новый Event
         private void NewEventButton_Click(object sender, RoutedEventArgs e)
         {
@@ -186,7 +363,10 @@ namespace DitsApp
             window.Show();
         }
 
+        #endregion
 
+
+        #region Обработчики Equipment
         //Refresh Equipment
         private void RefreshEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -233,12 +413,15 @@ namespace DitsApp
             var window = new EquipmentCard(selectedEquipmentId);
             window.Show();
         }
+        #endregion
 
         private void Menu_Lines_Click(object sender, RoutedEventArgs e)
         {
             var window = new LineCard();
             window.Show();
         }
+
+
     }
 
 }

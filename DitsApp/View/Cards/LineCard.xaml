@@ -6,7 +6,7 @@
         xmlns:mod="clr-namespace:DitsApp.Model"
         xmlns:local="clr-namespace:DitsApp.View"
         mc:Ignorable="d"
-        Title="LineCard" Height="450" Width="800">
+        Title="LineCard" SizeToContent="Height"  >
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
             
