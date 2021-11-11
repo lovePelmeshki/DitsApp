@@ -39,6 +39,7 @@ namespace DitsApp.View
             }
         }
 
+        //Add new Equip
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             using (ditsappdbContext db = new ditsappdbContext())

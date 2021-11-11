@@ -31,56 +31,59 @@
             </MenuItem>
 
         </Menu>
+        
         <TabControl>
 
             <!--Employees-->
             <TabItem Header="Employees" Width="120" Height="40">
-                <StackPanel>
-                    <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <GroupBox Header="Добавить" Margin="5">
-                            <StackPanel MinWidth="200">
-                                <Label Content="Фамилия"></Label>
-                                <TextBox x:Name="AddLastnameTextBox"></TextBox>
-                                <Label Content="Имя"></Label>
-                                <TextBox x:Name="AddNameTextBox"></TextBox>
-                                <Label Content="Отчество"></Label>
-                                <TextBox x:Name="AddMiddlenameTextBox"></TextBox>
-                                <Label Content="Участок"></Label>
-                                <ComboBox x:Name="AddDepartmentComboBox" 
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <GroupBox Header="Добавить" Margin="5">
+                                <StackPanel MinWidth="200">
+                                    <Label Content="Фамилия"></Label>
+                                    <TextBox x:Name="AddLastnameTextBox"></TextBox>
+                                    <Label Content="Имя"></Label>
+                                    <TextBox x:Name="AddNameTextBox"></TextBox>
+                                    <Label Content="Отчество"></Label>
+                                    <TextBox x:Name="AddMiddlenameTextBox"></TextBox>
+                                    <Label Content="Участок"></Label>
+                                    <ComboBox x:Name="AddDepartmentComboBox" 
                                           SelectedValuePath="Id"
                                           DisplayMemberPath="DepartmentName"
                                           SelectionChanged="AddDepartmentComboBox_SelectionChanged"/>
-                                <Button x:Name="AddEmployeeButton" Content="Добавить" Click="AddEmployeeButton_Click"/>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Редактировать" Margin="5">
-                            <StackPanel>
-                                <StackPanel MinWidth="200">
-                                    <Label Content="Фамилия"></Label>
-                                    <TextBox x:Name="EditLastnameTextBox"></TextBox>
-                                    <Label Content="Имя"></Label>
-                                    <TextBox x:Name="EditNameTextBox"></TextBox>
-                                    <Label Content="Отчество"></Label>
-                                    <TextBox x:Name="EditMiddlenameTextBox"></TextBox>
-                                    <Label Content="Участок"></Label>
-                                    <ComboBox x:Name="EditDepartmentComboBox"
+                                    <Button x:Name="AddEmployeeButton" Content="Добавить" Click="AddEmployeeButton_Click"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Редактировать" Margin="5">
+                                <StackPanel>
+                                    <StackPanel MinWidth="200">
+                                        <Label Content="Фамилия"></Label>
+                                        <TextBox x:Name="EditLastnameTextBox"></TextBox>
+                                        <Label Content="Имя"></Label>
+                                        <TextBox x:Name="EditNameTextBox"></TextBox>
+                                        <Label Content="Отчество"></Label>
+                                        <TextBox x:Name="EditMiddlenameTextBox"></TextBox>
+                                        <Label Content="Участок"></Label>
+                                        <ComboBox x:Name="EditDepartmentComboBox"
                                               SelectedValuePath="Id"
                                               DisplayMemberPath="DepartmentName"
                                               SelectionChanged="EditDepartmentComboBox_SelectionChanged"/>
-                                    <Button x:Name="UpdateEmployeeButton" Content="Редактировать" Click="UpdateEmployeeButton_Click"/>
+                                        <Button x:Name="UpdateEmployeeButton" Content="Редактировать" Click="UpdateEmployeeButton_Click"/>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
-                    </StackPanel>
-                    <TextBox x:Name="EmployeeSearchTextBox"  Height="20" Margin="10" IsInactiveSelectionHighlightEnabled="True" IsManipulationEnabled="True" ToolTip="tooltip"/>
+                            </GroupBox>
+                        </StackPanel>
+                        <TextBox x:Name="EmployeeSearchTextBox"  Height="20" Margin="10" IsInactiveSelectionHighlightEnabled="True" IsManipulationEnabled="True" ToolTip="tooltip"/>
 
-                    <DataGrid x:Name="EmployeeDataGrid"
+                        <DataGrid x:Name="EmployeeDataGrid"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
                   HorizontalAlignment="Center" 
                   AlternatingRowBackground="LightGray"
                   MaxWidth="1200"
                   MinWidth="600"
+                  MaxHeight="300"
                   GridLinesVisibility="None"
                   Margin="10"
                   MouseDoubleClick="EmployeeDataGrid_MouseDoubleClick"
@@ -90,50 +93,107 @@
                               SelectedValuePath="Id"
                               CanUserAddRows="False"
                   >
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel Grid.Row="2" Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-                            <Button Content="Delete" Name="DeleteButton" Click="DeleteButton_Click"/>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="2" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                                <Button Content="Delete" Name="DeleteButton" Click="DeleteButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
+
+
+
                     </StackPanel>
-
-
-
-                </StackPanel>
+                </ScrollViewer>
+                
             </TabItem>
 
             <!--Equipment-->
             <TabItem Header="Equipment" Width="120" Height="40">
-                <StackPanel>
-                    <TextBox x:Name="EquipmentSearchTextBox" Height="20" Margin="10"/>
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                <GroupBox Header="Добавить">
+                                    <StackPanel>
+                                        <Label Content="Класс"/>
+                                        <ComboBox Name="AddEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="AddEquipClassComboBox_SelectionChanged"/>
+                                        <Label Content="Тип"/>
+                                        <ComboBox Name="AddEquipTypeComboBox" SelectedValuePath="Id" DisplayMemberPath="TypeName" SelectionChanged="AddEquipTypeComboBox_SelectionChanged"/>
+                                        <Label Content="Серийный номер"/>
+                                        <TextBox x:Name="AddSerialNumTextBox"/>
+                                        <Label Content="Дата проверки"/>
+                                        <DatePicker Name="AddCheckupDatePicker"/>
+                                        <Label Content="Дата получения"/>
+                                        <DatePicker Name="AddInstallDatePicker"/>
+                                        <Label Content="Кто получил"/>
+                                        <ComboBox Name="AddEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
+                                        <Button x:Name="AddEquipmentButton" Content="Добавить" Click="AddEquipmentButton_Click"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                <GroupBox Header="Редактировать">
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Класс"/>
+                                        <ComboBox Name="EditEquipClassComboBox"/>
+                                        <Label Content="Тип"/>
+                                        <ComboBox Name="EditEquipTypeComboBox"/>
+                                        <Label Content="Серийный номер"/>
+                                        <TextBox x:Name="EditSerialNumTextBox"/>
+                                        <Label Content="Линия"/>
+                                        <ComboBox Name="EditLineComboBox"/>
+                                        <Label Content="Станция"/>
+                                        <ComboBox Name="EditStationComboBox"/>
+                                        <Label Content="Локация"/>
+                                        <ComboBox Name="EditLocationComboBox"/>
+                                        <Label Content="Место установки"/>
+                                        <ComboBox Name="EditPointComboBox"/>
+                                        <Label Content="Дата проверки"/>
+                                        <DatePicker Name="EditCheckupDatePicker"/>
+                                        <Label Content="Дата Установки"/>
+                                        <DatePicker Name="EditInstallDatePicker"/>
+                                        <Label Content="Кто выполнял работу"/>
+                                        <ComboBox Name="EditEmpliyeeComboBox"/>
+                                        <Button x:Name="EditEquipmentButton" Content="Редактировать"/>
+                                    </StackPanel>
+
+                                </GroupBox>
+                            </StackPanel>
+
+                        </StackPanel>
+                        <TextBox x:Name="EquipmentSearchTextBox" Height="20" Margin="10"/>
 
 
 
-                    <DataGrid x:Name="DataGridEquipment"
+                        <DataGrid x:Name="DataGridEquipment"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
                           SelectedValuePath="Id"
-                  Grid.Row="0" Grid.ColumnSpan="2" MouseDoubleClick="DataGridEquipment_MouseDoubleClick" >
-                    </DataGrid>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
+                  Grid.Row="0" Grid.ColumnSpan="2" MouseDoubleClick="DataGridEquipment_MouseDoubleClick"
+                                  MaxHeight="400">
+                        </DataGrid>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
 
-                        <Button x:Name="ButtonAddEquipment" Margin="5"
+                            <Button x:Name="ButtonAddEquipment" Margin="5"
                     Content="+ New Equipment"
                     Background="#FF0B930B"
                     Click="ButtonAddEquipment_Click"/>
 
-                        <Button x:Name="RefreshEquipmentButton" Margin="5"
+                            <Button x:Name="RefreshEquipmentButton" Margin="5"
                     Content="Refresh"
                     Click="RefreshEquipmentButton_Click"/>
+                        </StackPanel>
+
                     </StackPanel>
 
-                </StackPanel>
+                </ScrollViewer>
 
             </TabItem>
 
