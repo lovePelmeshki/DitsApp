@@ -117,66 +117,65 @@
             <TabItem Header="Equipment" Width="120" Height="40">
                 <ScrollViewer>
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
-                                <GroupBox Header="Добавить">
-                                    <StackPanel>
-                                        <Label Content="Класс"/>
-                                        <ComboBox Name="AddEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="AddEquipClassComboBox_SelectionChanged"/>
-                                        <Label Content="Тип"/>
-                                        <ComboBox Name="AddEquipTypeComboBox" SelectedValuePath="Id" DisplayMemberPath="TypeName" SelectionChanged="AddEquipTypeComboBox_SelectionChanged"/>
-                                        <Label Content="Серийный номер"/>
-                                        <TextBox x:Name="AddSerialNumTextBox"/>
-                                        <Label Content="Дата проверки"/>
-                                        <DatePicker Name="AddCheckupDatePicker"/>
-                                        <Label Content="Дата получения"/>
-                                        <DatePicker Name="AddInstallDatePicker"/>
-                                        <Label Content="Кто получил"/>
-                                        <ComboBox Name="AddEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
-                                        <Button x:Name="AddEquipmentButton" Content="Добавить" Click="AddEquipmentButton_Click"/>
-                                    </StackPanel>
-                                </GroupBox>
+                        <Expander Header="Добавить/Редактировать" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                    <GroupBox Header="Добавить">
+                                        <StackPanel>
+                                            <Label Content="Класс"/>
+                                            <ComboBox Name="AddEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="AddEquipClassComboBox_SelectionChanged"/>
+                                            <Label Content="Тип"/>
+                                            <ComboBox Name="AddEquipTypeComboBox" SelectedValuePath="Id" DisplayMemberPath="TypeName" SelectionChanged="AddEquipTypeComboBox_SelectionChanged"/>
+                                            <Label Content="Серийный номер"/>
+                                            <TextBox x:Name="AddSerialNumTextBox"/>
+                                            <Label Content="Дата проверки"/>
+                                            <DatePicker Name="AddCheckupDatePicker"/>
+                                            <Label Content="Дата получения"/>
+                                            <DatePicker Name="AddInstallDatePicker"/>
+                                            <Label Content="Кто получил"/>
+                                            <ComboBox Name="AddEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
+                                            <Button x:Name="AddEquipmentButton" Content="Добавить" Click="AddEquipmentButton_Click"/>
+                                        </StackPanel>
+                                    </GroupBox>
 
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                    <GroupBox Header="Редактировать">
+                                        <StackPanel Orientation="Vertical">
+                                            <Label Content="Класс"/>
+                                            <ComboBox Name="EditEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="EditEquipClassComboBox_SelectionChanged"/>
+                                            <Label Content="Тип"/>
+                                            <ComboBox Name="EditEquipTypeComboBox" SelectedValuePath ="Id" DisplayMemberPath="TypeName"/>
+                                            <Label Content="Серийный номер"/>
+                                            <TextBox x:Name="EditSerialNumTextBox"/>
+                                            <Label Content="Линия"/>
+                                            <ComboBox Name="EditLineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName"/>
+                                            <Label Content="Станция"/>
+                                            <ComboBox Name="EditStationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName"/>
+                                            <Label Content="Локация"/>
+                                            <ComboBox Name="EditLocationComboBox" SelectedValuePath="Id" DisplayMemberPath="LocationName"/>
+                                            <Label Content="Место установки"/>
+                                            <ComboBox Name="EditPointComboBox" SelectedValuePath="Id" DisplayMemberPath="PointName"/>
+                                            <Label Content="Дата проверки"/>
+                                            <DatePicker Name="EditCheckupDatePicker"/>
+                                            <Label Content="Дата Установки"/>
+                                            <DatePicker Name="EditInstallDatePicker"/>
+                                            <Label Content="Кто выполнял работу"/>
+                                            <ComboBox Name="EditEmployeeComboBox" SelectedValuePath="MaintainerId" DisplayMemberPath="Lastname"/>
+                                            <Button x:Name="EditEquipmentButton" Content="Редактировать"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
-                                <GroupBox Header="Редактировать">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Класс"/>
-                                        <ComboBox Name="EditEquipClassComboBox"/>
-                                        <Label Content="Тип"/>
-                                        <ComboBox Name="EditEquipTypeComboBox"/>
-                                        <Label Content="Серийный номер"/>
-                                        <TextBox x:Name="EditSerialNumTextBox"/>
-                                        <Label Content="Линия"/>
-                                        <ComboBox Name="EditLineComboBox"/>
-                                        <Label Content="Станция"/>
-                                        <ComboBox Name="EditStationComboBox"/>
-                                        <Label Content="Локация"/>
-                                        <ComboBox Name="EditLocationComboBox"/>
-                                        <Label Content="Место установки"/>
-                                        <ComboBox Name="EditPointComboBox"/>
-                                        <Label Content="Дата проверки"/>
-                                        <DatePicker Name="EditCheckupDatePicker"/>
-                                        <Label Content="Дата Установки"/>
-                                        <DatePicker Name="EditInstallDatePicker"/>
-                                        <Label Content="Кто выполнял работу"/>
-                                        <ComboBox Name="EditEmpliyeeComboBox"/>
-                                        <Button x:Name="EditEquipmentButton" Content="Редактировать"/>
-                                    </StackPanel>
-
-                                </GroupBox>
-                            </StackPanel>
-
-                        </StackPanel>
+                        </Expander>
                         <TextBox x:Name="EquipmentSearchTextBox" Height="20" Margin="10"/>
-
-
-
-                        <DataGrid x:Name="DataGridEquipment"
-                          SelectionMode="Single"
-                          SelectionUnit="FullRow"
-                          SelectedValuePath="Id"
-                  Grid.Row="0" Grid.ColumnSpan="2" MouseDoubleClick="DataGridEquipment_MouseDoubleClick"
+                        <DataGrid x:Name="DataGridEquipment" 
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  SelectedValuePath="Id"
+                                  Grid.ColumnSpan="2"
+                                  MouseDoubleClick="DataGridEquipment_MouseDoubleClick"
+                                  SelectedCellsChanged="DataGridEquipment_SelectedCellsChanged"
                                   MaxHeight="400">
                         </DataGrid>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
