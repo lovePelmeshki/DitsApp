@@ -130,13 +130,14 @@
                         </DataGrid>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
 
-                            <Button x:Name="ButtonAddEquipment" Margin="5"
-                    Content="+ New Equipment"
-                    Background="#FF0B930B"
-                    Click="ButtonAddEquipment_Click"/>
+                            <Button x:Name="ButtonGoToRepair" Margin="5"   Click="ButtonGoToRepair_Click"
+                    Content="В мастерские"
+                    
+                    />
 
                             <Button x:Name="DeleteEquipmentButton" Margin="5"
                     Content="Delete"
+                                    Background="#ba0000"
                     Click="DeleteEquipmentButton_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
@@ -164,11 +165,11 @@
                                 <GroupBox Header="Редактировать">
                                     <StackPanel Orientation="Vertical">
                                         <Label Content="Класс"/>
-                                        <ComboBox Name="EditEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="EditEquipClassComboBox_SelectionChanged"/>
+                                        <ComboBox Name="EditEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="EditEquipClassComboBox_SelectionChanged" IsEnabled="False"/>
                                         <Label Content="Тип"/>
-                                        <ComboBox Name="EditEquipTypeComboBox" SelectedValuePath ="Id" DisplayMemberPath="TypeName"/>
+                                        <ComboBox Name="EditEquipTypeComboBox" SelectedValuePath ="Id" DisplayMemberPath="TypeName" IsEnabled="False"/>
                                         <Label Content="Серийный номер"/>
-                                        <TextBox x:Name="EditSerialNumTextBox"/>
+                                        <TextBox x:Name="EditSerialNumTextBox" IsEnabled="False"/>
                                         <Label Content="Линия"/>
                                         <ComboBox Name="EditLineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="EditLineComboBox_SelectionChanged"/>
                                         <Label Content="Станция"/>
@@ -258,7 +259,7 @@
 
             <!--Stations-->
             <TabItem Header="Stations" Width="120" Height="40">
-                <DataGrid x:Name="DataGridStations" Margin="20">
+                <DataGrid x:Name="DataGridStations" Margin="20" SelectionMode="Single" SelectionUnit="FullRow">
 
                 </DataGrid>
             </TabItem>

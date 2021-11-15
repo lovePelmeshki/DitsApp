@@ -78,7 +78,7 @@ namespace DitsApp.View
                     TypeId = (int)ComboBoxEventType.SelectedValue,
                     RespoinderId = ComboBoxMaintainer.SelectedValue as int?,
                     StationId = (int)ComboBoxStation.SelectedValue,
-                    //CreateDate = DateTime.Now,
+                    CreateDate = DateTime.Now,
                     LocationId = ComboBoxPost.SelectedValue as int?,
                     Status = 1,
                 });
