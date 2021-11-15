@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Point = DitsApp.Model.Point;
 
 #region scaffold
 /*
@@ -42,8 +43,6 @@ namespace DitsApp
 
                 //Equipment 
                 GetEquipmentInfo(true);
-
-
 
                 //Events 
                 #region Запрос Events
@@ -336,17 +335,10 @@ namespace DitsApp
 
         #region Обработчики Equipment
         //Refresh Equipment
-        private void RefreshEquipmentButton_Click(object sender, RoutedEventArgs e)
-        {
-   
 
-        }
-        /// <summary>
-        /// Запрос данных об оборудовании
-        /// </summary>
-        /// <param name="refreshItemsSource" принимает бул></param>
         private void GetEquipmentInfo(bool DoRefreshItemsSource)
         {
+            DataGridEquipment.ItemsSource = null;
             using (ditsappdbContext db = new ditsappdbContext())
             {
                 var queryEquipment = from e in db.Equipment
@@ -358,6 +350,9 @@ namespace DitsApp
 
                                      join s in db.EquipmentStatuses
                                      on e.Id equals s.EquipmentId
+
+                                     join emp in db.Employees
+                                     on s.MaintainerId equals emp.Id
 
                                      join point in db.Points
                                      on s.PointId equals point.Id
@@ -381,66 +376,19 @@ namespace DitsApp
                                          Station = station.StationName,
                                          Location = loc.LocationName,
                                          Point = point.PointName,
-                                         ChangeDate = s.ChangeDate
+                                         ChangeDate = s.ChangeDate,
+                                         MaintainerId = emp.Id,
+
 
                                      };
                 DataGridEquipment.ItemsSource = queryEquipment.ToList();
                 if (DoRefreshItemsSource)
                 {
-                    RefreshFormsAndItemsSources();
+                    RefreshItemsSources();
                 }
             }
         }
-        private void RefreshFormsAndItemsSources()
-        {
-            using (ditsappdbContext db = new ditsappdbContext())
-            {
-                AddEquipClassComboBox.ItemsSource = GetEquipmentClasses();
-                AddEmployeeComboBox.ItemsSource = GetEmployees();
 
-                EditEquipClassComboBox.ItemsSource = GetEquipmentClasses();
-                EditEmployeeComboBox.ItemsSource = GetEmployees();
-                EditLineComboBox.ItemsSource = GetLines();
-            }
-        }
-        private List<Line> GetLines()
-        {
-            using (ditsappdbContext db = new ditsappdbContext())
-            {
-                var line = from l in db.Lines
-                           select l;
-                return line.ToList();
-            }
-        }
-
-        /// <summary>
-        /// Получить список EquipmentClass
-        /// </summary>
-        private List<EquipmentClass> GetEquipmentClasses()
-        {
-            using (ditsappdbContext db = new ditsappdbContext())
-            {
-                var equipmentClasses = (from c in db.EquipmentClasses
-                                        select c).ToList();
-                return equipmentClasses;
-            }
-        }
-
-
-        private void AddEquipClassComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (AddEquipClassComboBox != null)
-            {
-                _selectedClassId = (int)AddEquipClassComboBox.SelectedValue;
-                AddEquipTypeComboBox.ItemsSource = GetEquipmentTypesByClassId(_selectedClassId);
-
-            }
-
-        }
-
-        /// <summary>
-        /// Получить список EquipmentType с выбранным Class Id
-        /// </summary>
         private List<EquipmentType> GetEquipmentTypesByClassId(int classId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -451,24 +399,18 @@ namespace DitsApp
                 return equipmentTypes;
             }
         }
-        /// <summary>
-        /// Получить Maintenance Diration по EquipmentType Id
-        /// </summary>
 
         private int GetMaintenanceDurationByTypeId(int equipmentTypeId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
                 var duration = (int)(from t in db.EquipmentTypes
-                                where t.Id == equipmentTypeId
-                                select t.MaintenanceDuration).FirstOrDefault();
+                                     where t.Id == equipmentTypeId
+                                     select t.MaintenanceDuration).FirstOrDefault();
                 return duration;
             }
         }
-
-        /// <summary>
-        /// Получить InstallDuration по EquipmentType Id
-        /// </summary>
+ 
         private int GetInstallDurationByTypeId(int equipmentTypeId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -480,6 +422,120 @@ namespace DitsApp
             }
         }
 
+        private List<EquipmentClass> GetEquipmentClasses()
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var equipmentClasses = (from c in db.EquipmentClasses
+                                        select c).ToList();
+                return equipmentClasses;
+            }
+        }
+
+        private Equipment GetEquipment(int equipmentId)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                Equipment equipment = (from eqip in db.Equipment
+                                       where eqip.Id == equipmentId
+                                       select eqip).SingleOrDefault();
+                return equipment;
+            }
+        }
+
+        private EquipmentStatus GetCurrentStatus(Equipment equipment)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                EquipmentStatus status = (from s in db.EquipmentStatuses
+                                         where s.EquipmentId == equipment.Id && s.Status == 1
+                                         select s).SingleOrDefault();
+                return status;
+
+            }
+        }
+
+        private List<EquipmentStatus> GetStatusList(Equipment equipment)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var statusList = from s in db.EquipmentStatuses
+                                 where s.EquipmentId == equipment.Id    
+                                 select s;
+                return statusList.ToList();
+
+
+            }
+        }
+
+        private List<Line> GetLines()
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var line = from l in db.Lines
+                           select l;
+                return line.ToList();
+            }
+        }
+
+        private List<Station> GetStationsList(int lineId)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var station = from s in db.Stations
+                              where s.LineId == lineId
+                              select s;
+                return station.ToList();
+            }
+        }
+
+        private List<Location> GetLocationList(int stationId)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var locations = from l in db.Locations
+                                where l.StationId == stationId
+                                select l;
+                return locations.ToList();
+            }
+        }
+
+        private List<Point> GetPointList(int locationId)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var points = from p in db.Points
+                             where p.LocationId == locationId
+                             select p;
+                return points.ToList(); 
+            }
+        }
+
+        private void RefreshItemsSources()
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                AddEquipClassComboBox.ItemsSource = GetEquipmentClasses();
+                AddEmployeeComboBox.ItemsSource = GetEmployees();
+
+                EditEquipClassComboBox.ItemsSource = GetEquipmentClasses();
+                EditEmployeeComboBox.ItemsSource = GetEmployees();
+                EditLineComboBox.ItemsSource = GetLines();
+                
+                
+            }
+        }
+
+        private void AddEquipClassComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AddEquipClassComboBox != null)
+            {
+                _selectedClassId = (int)AddEquipClassComboBox.SelectedValue;
+                AddEquipTypeComboBox.ItemsSource = GetEquipmentTypesByClassId(_selectedClassId);
+
+            }
+
+        }
 
         private void AddEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -513,7 +569,7 @@ namespace DitsApp
                     MaintenanceDate = maintenanceDate,
                     NextMaintenanceDate = maintenanceDate.AddMonths(maintenanceDuration),
                     InstallDate = maintenanceDate,
-                    StatusType = "Получение со склада"
+                    StatusType = "Получение со склада",
                 };
 
                 db.EquipmentStatuses.Add(status);
@@ -527,9 +583,6 @@ namespace DitsApp
             _selectedTypeId = (int)AddEquipTypeComboBox.SelectedValue;
         }
 
-
-
-        //Equipment DoubleClick
         private void DataGridEquipment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -538,75 +591,75 @@ namespace DitsApp
             var window = new EquipmentCard(selectedEquipmentId);
             window.Show();
         }
-        #endregion
-
-        private void Menu_Lines_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new LineCard();
-            window.Show();
-        }
 
 
-        //не доделано
+        //selection changed
         private void DataGridEquipment_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            DataGrid equipmentDataGrid = sender as DataGrid;  
-            if (equipmentDataGrid != null)
+            DataGrid equipmentDataGrid = sender as DataGrid;
+            if (equipmentDataGrid != null && equipmentDataGrid.SelectedValue !=null)
             {
                 _selectedEquipmentId = (int)equipmentDataGrid.SelectedValue;
-                using (ditsappdbContext db  = new ditsappdbContext())
+                using (ditsappdbContext db = new ditsappdbContext())
                 {
                     var selectedEquipment = (from eq in db.Equipment
-                                    where eq.Id == _selectedEquipmentId
-                                    join type in db.EquipmentTypes
-                                    on eq.TypeId equals type.Id
+                                             where eq.Id == _selectedEquipmentId
+                                             join type in db.EquipmentTypes
+                                             on eq.TypeId equals type.Id
 
-                                    join eqClass in db.EquipmentClasses
-                                    on type.ClassId equals eqClass.Id
+                                             join eqClass in db.EquipmentClasses
+                                             on type.ClassId equals eqClass.Id
 
-                                    join s in db.EquipmentStatuses
-                                    on eq.Id equals s.EquipmentId
+                                             join s in db.EquipmentStatuses
+                                             on eq.Id equals s.EquipmentId
 
-                                    join point in db.Points
-                                    on s.PointId equals point.Id
+                                             join point in db.Points
+                                             on s.PointId equals point.Id
 
-                                    join loc in db.Locations
-                                    on point.LocationId equals loc.Id
+                                             join loc in db.Locations
+                                             on point.LocationId equals loc.Id
 
-                                    join station in db.Stations
-                                    on loc.StationId equals station.Id
+                                             join station in db.Stations
+                                             on loc.StationId equals station.Id
 
-                                    join line in db.Lines
-                                    on station.LineId equals line.Id
+                                             join line in db.Lines
+                                             on station.LineId equals line.Id
 
-                                    select new
-                                    {
-                                        Id = eq.Id,
-                                        Serial = eq.SerialNumber,
-                                        Class = eqClass.ClassName,
-                                        ClassId = eqClass.Id,
-                                        Type = type.TypeName,
-                                        TypeId = type.Id,
-                                        Status = s.Status,
-                                        LineId = line.Id,
-                                        Line = line.LineName,
-                                        StationId = station.Id,
-                                        Station = station.StationName,
-                                        LocationId = loc.Id,
-                                        Location = loc.LocationName,
-                                        PointId = point.Id,
-                                        Point = point.PointName,
-                                        ChangeDate = s.ChangeDate,
-                                        CheckupDate = s.CheckupDate,
-                                        InstallDate = s.InstallDate,
-                                        MaintainerId = s.MaintainerId,
+                                             join emp in db.Employees
+                                             on s.MaintainerId equals emp.Id
+                                            
 
-                                    }).SingleOrDefault();
+                                             select new
+                                             {
+                                                 Id = eq.Id,
+                                                 Serial = eq.SerialNumber,
+                                                 Class = eqClass.ClassName,
+                                                 ClassId = eqClass.Id,
+                                                 Type = type.TypeName,
+                                                 TypeId = type.Id,
+                                                 Status = s.Status,
+                                                 LineId = line.Id,
+                                                 Line = line.LineName,
+                                                 StationId = station.Id,
+                                                 Station = station.StationName,
+                                                 LocationId = loc.Id,
+                                                 Location = loc.LocationName,
+                                                 PointId = point.Id,
+                                                 Point = point.PointName,
+                                                 ChangeDate = s.ChangeDate,
+                                                 CheckupDate = s.CheckupDate,
+                                                 InstallDate = s.InstallDate,
+                                                 MaintainerId = s.MaintainerId,
+                                                 Lastname = emp.Lastname
+
+                                             }).SingleOrDefault();
 
                     EditEquipClassComboBox.SelectedValue = selectedEquipment.ClassId;
                     EditEquipTypeComboBox.SelectedValue = selectedEquipment.TypeId;
                     EditSerialNumTextBox.Text = selectedEquipment.Serial;
                     EditLineComboBox.SelectedValue = selectedEquipment.LineId;
+
+                    
                     EditStationComboBox.SelectedValue = selectedEquipment.StationId;
                     EditLocationComboBox.SelectedValue = selectedEquipment.LocationId;
                     EditPointComboBox.SelectedValue = selectedEquipment.PointId;
@@ -614,6 +667,7 @@ namespace DitsApp
                     EditInstallDatePicker.SelectedDate = selectedEquipment.InstallDate;
                     EditEmployeeComboBox.SelectedValue = selectedEquipment.MaintainerId;
                 }
+
 
             }
         }
@@ -626,17 +680,87 @@ namespace DitsApp
                 EditEquipTypeComboBox.ItemsSource = GetEquipmentTypesByClassId(_selectedClassId);
             }
         }
-
-        private List<Station> GetStationsByLineId(int lineId)
+        private void EditLineComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            using (ditsappdbContext db = new ditsappdbContext())
+            if (EditLineComboBox.SelectedValue != null)
             {
-                var station = from s in db.Stations
-                           where s.LineId == lineId
-                           select s;
-                return station.ToList();
+                EditStationComboBox.ItemsSource = GetStationsList((int)EditLineComboBox.SelectedValue);
             }
         }
+        private void EditStationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EditStationComboBox.SelectedValue != null)
+            {
+                EditLocationComboBox.ItemsSource = GetLocationList((int)EditStationComboBox.SelectedValue);
+            }
+        }
+        private void EditLocationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EditLocationComboBox.SelectedValue != null)
+            {
+                EditPointComboBox.ItemsSource = GetPointList((int)EditLocationComboBox.SelectedValue);
+            }
+        }
+        private void DeleteEquipmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedEquipmentId > 0)
+            {
+                Equipment selectedEquipment = GetEquipment(_selectedEquipmentId);
+                EquipmentStatus status = GetCurrentStatus(selectedEquipment);
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    db.EquipmentStatuses.Remove(status);
+                    db.SaveChanges();
+                    db.Equipment.Remove(selectedEquipment);
+                    db.SaveChanges();
+                    _selectedEquipmentId = -1;
+                    GetEquipmentInfo(true);
+
+                }
+
+            }
+
+        }
+
+        #endregion
+
+        private void Menu_Lines_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new LineCard();
+            window.Show();
+        }
+
+        private void EditEquipmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedEquipmentId > 0)
+            {
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    Equipment selectedEquipment = GetEquipment(_selectedEquipmentId);
+                    EquipmentStatus currentStatus = GetCurrentStatus(selectedEquipment);
+
+                    selectedEquipment.TypeId = (int)EditEquipTypeComboBox.SelectedValue;
+                    selectedEquipment.SerialNumber = EditSerialNumTextBox.Text;
+                    db.Equipment.Update(selectedEquipment);
+                    db.SaveChanges();
+
+                    currentStatus.PointId = (int)EditPointComboBox.SelectedValue;
+                    currentStatus.ChangeDate = DateTime.Now;
+                    currentStatus.CheckupDate = EditCheckupDatePicker.DisplayDate;
+                    currentStatus.InstallDate = EditInstallDatePicker.DisplayDate;
+                    currentStatus.MaintainerId = (int)EditEmployeeComboBox.SelectedValue;
+                    db.EquipmentStatuses.Update(currentStatus);
+                    db.SaveChanges();
+
+                    GetEquipmentInfo(true);
+                }
+            }
+        }
+
+
+
+        //не доделано
+
     }
 
 

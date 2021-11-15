@@ -38,6 +38,37 @@
             <TabItem Header="Employees" Width="120" Height="40">
                 <ScrollViewer>
                     <StackPanel>
+                        <TextBox x:Name="EmployeeSearchTextBox"  Height="20" Margin="10" IsInactiveSelectionHighlightEnabled="True" IsManipulationEnabled="True" ToolTip="tooltip"/>
+
+                        <DataGrid x:Name="EmployeeDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  HorizontalAlignment="Center" 
+                  AlternatingRowBackground="LightGray"
+                  MaxWidth="1200"
+                  MinWidth="600"
+                  MaxHeight="300"
+                  GridLinesVisibility="None"
+                  Margin="10"
+                  MouseDoubleClick="EmployeeDataGrid_MouseDoubleClick"
+                  SelectedCellsChanged="EmployeeDataGrid_SelectedCellsChanged"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Single"
+                              SelectedValuePath="Id"
+                              CanUserAddRows="False"
+                  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="2" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                                <Button Content="Delete" Name="DeleteButton" Click="DeleteButton_Click"/>
+                            </StackPanel>
+                        </StackPanel>
                         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
                             <GroupBox Header="Добавить" Margin="5">
                                 <StackPanel MinWidth="200">
@@ -74,37 +105,7 @@
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
-                        <TextBox x:Name="EmployeeSearchTextBox"  Height="20" Margin="10" IsInactiveSelectionHighlightEnabled="True" IsManipulationEnabled="True" ToolTip="tooltip"/>
 
-                        <DataGrid x:Name="EmployeeDataGrid"
-                  Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  HorizontalAlignment="Center" 
-                  AlternatingRowBackground="LightGray"
-                  MaxWidth="1200"
-                  MinWidth="600"
-                  MaxHeight="300"
-                  GridLinesVisibility="None"
-                  Margin="10"
-                  MouseDoubleClick="EmployeeDataGrid_MouseDoubleClick"
-                  SelectedCellsChanged="EmployeeDataGrid_SelectedCellsChanged"
-                  SelectionUnit="FullRow"
-                  SelectionMode="Single"
-                              SelectedValuePath="Id"
-                              CanUserAddRows="False"
-                  >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=Lastname, Mode=TwoWay}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Firstname, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=Middlename, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Участок" Binding="{Binding Path=Department, Mode=OneWay}" Width="*"></DataGridTextColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <StackPanel Grid.Row="2" Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-                                <Button Content="Delete" Name="DeleteButton" Click="DeleteButton_Click"/>
-                            </StackPanel>
-                        </StackPanel>
 
 
 
@@ -117,57 +118,6 @@
             <TabItem Header="Equipment" Width="120" Height="40">
                 <ScrollViewer>
                     <StackPanel>
-                        <Expander Header="Добавить/Редактировать" HorizontalAlignment="Center">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                                <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
-                                    <GroupBox Header="Добавить">
-                                        <StackPanel>
-                                            <Label Content="Класс"/>
-                                            <ComboBox Name="AddEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="AddEquipClassComboBox_SelectionChanged"/>
-                                            <Label Content="Тип"/>
-                                            <ComboBox Name="AddEquipTypeComboBox" SelectedValuePath="Id" DisplayMemberPath="TypeName" SelectionChanged="AddEquipTypeComboBox_SelectionChanged"/>
-                                            <Label Content="Серийный номер"/>
-                                            <TextBox x:Name="AddSerialNumTextBox"/>
-                                            <Label Content="Дата проверки"/>
-                                            <DatePicker Name="AddCheckupDatePicker"/>
-                                            <Label Content="Дата получения"/>
-                                            <DatePicker Name="AddInstallDatePicker"/>
-                                            <Label Content="Кто получил"/>
-                                            <ComboBox Name="AddEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
-                                            <Button x:Name="AddEquipmentButton" Content="Добавить" Click="AddEquipmentButton_Click"/>
-                                        </StackPanel>
-                                    </GroupBox>
-
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
-                                    <GroupBox Header="Редактировать">
-                                        <StackPanel Orientation="Vertical">
-                                            <Label Content="Класс"/>
-                                            <ComboBox Name="EditEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="EditEquipClassComboBox_SelectionChanged"/>
-                                            <Label Content="Тип"/>
-                                            <ComboBox Name="EditEquipTypeComboBox" SelectedValuePath ="Id" DisplayMemberPath="TypeName"/>
-                                            <Label Content="Серийный номер"/>
-                                            <TextBox x:Name="EditSerialNumTextBox"/>
-                                            <Label Content="Линия"/>
-                                            <ComboBox Name="EditLineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName"/>
-                                            <Label Content="Станция"/>
-                                            <ComboBox Name="EditStationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName"/>
-                                            <Label Content="Локация"/>
-                                            <ComboBox Name="EditLocationComboBox" SelectedValuePath="Id" DisplayMemberPath="LocationName"/>
-                                            <Label Content="Место установки"/>
-                                            <ComboBox Name="EditPointComboBox" SelectedValuePath="Id" DisplayMemberPath="PointName"/>
-                                            <Label Content="Дата проверки"/>
-                                            <DatePicker Name="EditCheckupDatePicker"/>
-                                            <Label Content="Дата Установки"/>
-                                            <DatePicker Name="EditInstallDatePicker"/>
-                                            <Label Content="Кто выполнял работу"/>
-                                            <ComboBox Name="EditEmployeeComboBox" SelectedValuePath="MaintainerId" DisplayMemberPath="Lastname"/>
-                                            <Button x:Name="EditEquipmentButton" Content="Редактировать"/>
-                                        </StackPanel>
-                                    </GroupBox>
-                                </StackPanel>
-                            </StackPanel>
-                        </Expander>
                         <TextBox x:Name="EquipmentSearchTextBox" Height="20" Margin="10"/>
                         <DataGrid x:Name="DataGridEquipment" 
                                   SelectionMode="Single"
@@ -176,7 +126,7 @@
                                   Grid.ColumnSpan="2"
                                   MouseDoubleClick="DataGridEquipment_MouseDoubleClick"
                                   SelectedCellsChanged="DataGridEquipment_SelectedCellsChanged"
-                                  MaxHeight="400">
+                                  MaxHeight="300">
                         </DataGrid>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">
 
@@ -185,9 +135,58 @@
                     Background="#FF0B930B"
                     Click="ButtonAddEquipment_Click"/>
 
-                            <Button x:Name="RefreshEquipmentButton" Margin="5"
-                    Content="Refresh"
-                    Click="RefreshEquipmentButton_Click"/>
+                            <Button x:Name="DeleteEquipmentButton" Margin="5"
+                    Content="Delete"
+                    Click="DeleteEquipmentButton_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                <GroupBox Header="Добавить">
+                                    <StackPanel>
+                                        <Label Content="Класс"/>
+                                        <ComboBox Name="AddEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="AddEquipClassComboBox_SelectionChanged"/>
+                                        <Label Content="Тип"/>
+                                        <ComboBox Name="AddEquipTypeComboBox" SelectedValuePath="Id" DisplayMemberPath="TypeName" SelectionChanged="AddEquipTypeComboBox_SelectionChanged"/>
+                                        <Label Content="Серийный номер"/>
+                                        <TextBox x:Name="AddSerialNumTextBox"/>
+                                        <Label Content="Дата проверки"/>
+                                        <DatePicker Name="AddCheckupDatePicker"/>
+                                        <Label Content="Дата получения"/>
+                                        <DatePicker Name="AddInstallDatePicker"/>
+                                        <Label Content="Кто получил"/>
+                                        <ComboBox Name="AddEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
+                                        <Button x:Name="AddEquipmentButton" Content="Добавить" Click="AddEquipmentButton_Click"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="10" MinWidth="300">
+                                <GroupBox Header="Редактировать">
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Класс"/>
+                                        <ComboBox Name="EditEquipClassComboBox" SelectedValuePath="Id" DisplayMemberPath="ClassName" SelectionChanged="EditEquipClassComboBox_SelectionChanged"/>
+                                        <Label Content="Тип"/>
+                                        <ComboBox Name="EditEquipTypeComboBox" SelectedValuePath ="Id" DisplayMemberPath="TypeName"/>
+                                        <Label Content="Серийный номер"/>
+                                        <TextBox x:Name="EditSerialNumTextBox"/>
+                                        <Label Content="Линия"/>
+                                        <ComboBox Name="EditLineComboBox" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="EditLineComboBox_SelectionChanged"/>
+                                        <Label Content="Станция"/>
+                                        <ComboBox Name="EditStationComboBox" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="EditStationComboBox_SelectionChanged"/>
+                                        <Label Content="Локация"/>
+                                        <ComboBox Name="EditLocationComboBox" SelectedValuePath="Id" DisplayMemberPath="LocationName" SelectionChanged="EditLocationComboBox_SelectionChanged"/>
+                                        <Label Content="Место установки"/>
+                                        <ComboBox Name="EditPointComboBox" SelectedValuePath="Id" DisplayMemberPath="PointName"/>
+                                        <Label Content="Дата проверки"/>
+                                        <DatePicker Name="EditCheckupDatePicker"/>
+                                        <Label Content="Дата Установки"/>
+                                        <DatePicker Name="EditInstallDatePicker"/>
+                                        <Label Content="Кто выполнял работу"/>
+                                        <ComboBox Name="EditEmployeeComboBox" SelectedValuePath="Id" DisplayMemberPath="Lastname"/>
+                                        <Button x:Name="EditEquipmentButton" Content="Редактировать" Click="EditEquipmentButton_Click"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
                         </StackPanel>
 
                     </StackPanel>

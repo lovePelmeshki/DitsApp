@@ -105,7 +105,6 @@ namespace DitsApp.Model
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Equipment)
                     .HasForeignKey(d => d.TypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_equipment_equipment_types");
             });
 
@@ -173,19 +172,16 @@ namespace DitsApp.Model
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.EquipmentStatuses)
                     .HasForeignKey(d => d.EquipmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_equipment_status_equipment");
 
                 entity.HasOne(d => d.Maintainer)
                     .WithMany(p => p.EquipmentStatuses)
                     .HasForeignKey(d => d.MaintainerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_equipment_status_employees");
 
                 entity.HasOne(d => d.Point)
                     .WithMany(p => p.EquipmentStatuses)
                     .HasForeignKey(d => d.PointId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_equipment_status_points");
             });
 
@@ -357,7 +353,6 @@ namespace DitsApp.Model
                 entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.Maintenances)
                     .HasForeignKey(d => d.EquipmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_maintenances_equipment");
 
                 entity.HasOne(d => d.Mainteiner)
