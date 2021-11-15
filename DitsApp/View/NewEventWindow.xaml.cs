@@ -90,7 +90,6 @@ namespace DitsApp.View
 
         }
 
-
         //При выборе станции в ComboBox Station менять ItemSource ComboBox Post, чтобы увидеть список Location 
         //для выбранной станции
         private void ComboBoxStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,8 +113,6 @@ namespace DitsApp.View
             }
 
         }
-
-
         private void ComboBoxLine_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -136,6 +133,13 @@ namespace DitsApp.View
 
             }
 
+        }
+
+        private enum EventStatus
+        {
+            Open = 1,
+            InWork,
+            Closed
         }
     }
 }

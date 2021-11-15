@@ -26,20 +26,24 @@
                 <TextBlock x:Name="Tblock4" MinWidth="120"  Text="{Binding Location}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Status Должна быть возможность изменить" MinWidth="60"></Label>
-                <TextBlock x:Name="Tblock5" MinWidth="120"  Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="Status" MinWidth="60"></Label>
+                <ComboBox x:Name="Tblock5" MinWidth="120"  Text="{Binding Status}" SelectedValuePath="Status" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="CreateDate" MinWidth="60"></Label>
                 <TextBlock x:Name="Tblock6" MinWidth="120"  Text="{Binding CreateDate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <Label Content="ChangeDate" MinWidth="60"></Label>
+                <TextBlock x:Name="Tblock7" MinWidth="120"  Text="{Binding CreateDate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <Label Content="Respoinder Должна быть возможность изменить" MinWidth="60"></Label>
-                <TextBlock x:Name="Tblock7" MinWidth="120"  Text="{Binding Respoinder}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Tblock8" MinWidth="120"  Text="{Binding Respoinder}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Comment Должна быть возможность изменить" MinWidth="60"></Label>
-                <TextBlock x:Name="Tblock8" MinWidth="120"  Text="{Binding Comment}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Tblock9" MinWidth="120"  Text="{Binding Comment}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
     </Grid>
