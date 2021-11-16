@@ -832,7 +832,7 @@ namespace DitsApp
         {
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                Event newEvent = new Event
+                db.Events.Add(new Event
                 {
                     TypeId = (int)ComboBoxEventType.SelectedValue,
                     StationId = (int)ComboBoxStationEvent.SelectedValue,
@@ -840,13 +840,26 @@ namespace DitsApp
                     Status = 1,
                     CreateDate = DatePickerEvent.DisplayDate,
                     Comment = CommentTextBoxEvent.Text
-                };
-                db.Events.Add(newEvent);
+                }); 
                 db.SaveChanges();
                 GetEventsInfo(true);
                 
             }
 
+        }
+
+        private void DeleteEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedEventId > 0)
+            {
+                using (ditsappdbContext db = new ditsappdbContext())
+                {
+                    Event selectedEvent = GetEvent(_selectedEventId);
+                    db.Events.Remove(selectedEvent);
+                    db.SaveChanges();
+                    GetEventsInfo(true);
+                }
+            }
         }
     }
 }

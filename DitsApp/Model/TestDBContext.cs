@@ -215,9 +215,7 @@ namespace DitsApp.Model
             {
                 entity.ToTable("events");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CloseDate)
                     .HasColumnType("datetime")
