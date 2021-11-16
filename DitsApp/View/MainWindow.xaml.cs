@@ -29,8 +29,12 @@ namespace DitsApp
         private int _selectedTypeId = -1;
         private int _installDuration = -1;
         private int _maintenanceDuration = -1;
-        private Button _AddEquipmentButton;
         private int _selectedEquipmentId = -1;
+        private int _selectedEventId = -1;
+        private int _selectedLineId_Event = -1;
+        private int _selectedStationId_Event = -1;
+        private int _selectedLocationId_Event = -1;
+
 
 
         public MainWindow()
@@ -47,24 +51,9 @@ namespace DitsApp
                 //Events 
                 #region Запрос Events
                 //Events DataGrid
+                GetEventsInfo(true);
+                GetClosedEventsInfo();
 
-                var queryEvents = from ev in db.Events
-                                  join evType in db.EventTypes
-                                  on ev.TypeId equals evType.Id
-                                  join station in db.Stations
-                                  on ev.StationId equals station.Id
-
-                                  join location in db.Locations
-                                  on ev.LocationId equals location.Id into ls
-                                  from location in ls.DefaultIfEmpty()
-                                  select new
-                                  {
-                                      Id = ev.Id,
-                                      Type = evType.TypeName,
-                                      Station = station.StationName,
-                                      Location = location == null ? "---" : location.LocationName
-                                  };
-                DataGridEvents.ItemsSource = queryEvents.ToList();
                 #endregion
 
                 //Maintenances
@@ -270,65 +259,86 @@ namespace DitsApp
         #endregion
 
         #region Обработчики Event
-        //Добавить новый Event
-        private void NewEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            var newEventWindow = new NewEventWindow();
-            newEventWindow.Show();
-        }
 
-        //Открыть окно Add New Equipment
-        private void ButtonAddEquipment_Click(object sender, RoutedEventArgs e)
+        private void GetEventsInfo(bool doRefreshItemSource)
         {
-            var window = new NewEquipmentWindow();
-            window.Show();
-        }
-
-        //Открыть окно Add New Event
-        private void AddNewEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new NewEventWindow();
-            window.Show();
-        }
-
-        //Refresh Events
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Обновление происходит через повторный запрос к БД
-            //ПЕРЕДЕЛАТЬ
             using (ditsappdbContext db = new ditsappdbContext())
             {
-                var queryEvents = from ev in db.Events
-                                  join evType in db.EventTypes
-                                  on ev.TypeId equals evType.Id
-                                  join station in db.Stations
-                                  on ev.StationId equals station.Id
+                var events = from ev in db.Events
+                             join evType in db.EventTypes
+                             on ev.TypeId equals evType.Id
+                             join station in db.Stations
+                             on ev.StationId equals station.Id
 
-                                  join location in db.Locations
-                                  on ev.LocationId equals location.Id into ls
-                                  from location in ls.DefaultIfEmpty()
-                                  select new
-                                  {
-                                      Id = ev.Id,
-                                      Type = evType.TypeName,
-                                      Station = station.StationName,
-                                      Location = location == null ? "---" : location.LocationName
-                                  };
-                DataGridEvents.ItemsSource = queryEvents.ToList();
+                             join location in db.Locations
+                             on ev.LocationId equals location.Id into ls
+                             from location in ls.DefaultIfEmpty()
+                             select new
+                             {
+                                 Id = ev.Id,
+                                 Type = evType.TypeName,
+                                 Station = station.StationName,
+                                 Location = location == null ? "---" : location.LocationName
+                             };
+                DataGridEvents.ItemsSource = events.ToList();
+                if (doRefreshItemSource)
+                {
+                    SetEventsDataSource();
+                }
             }
-
-
         }
 
 
-        //Events DoubleClick
-        private void DataGridEvents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void GetClosedEventsInfo()
         {
-            DataGrid dataGrid = sender as DataGrid;
-            int selectedEventId = (int)dataGrid.SelectedValue;
-            var window = new EventCard(selectedEventId);
-            window.Show();
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var events = from ev in db.Events
+                             where ev.Status == 0
+                             join evType in db.EventTypes
+                             on ev.TypeId equals evType.Id
+                             join station in db.Stations
+                             on ev.StationId equals station.Id
+
+                             join location in db.Locations
+                             on ev.LocationId equals location.Id into ls
+                             from location in ls.DefaultIfEmpty()
+                             select new
+                             {
+                                 Id = ev.Id,
+                                 Type = evType.TypeName,
+                                 Station = station.StationName,
+                                 Location = location == null ? "---" : location.LocationName
+                             };
+                DataGridClosedEvents.ItemsSource = events.ToList();
+            }
         }
+        private Event GetEvent(int id)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var _event = (from ev in db.Events
+                              where ev.Id == id
+                              select ev).SingleOrDefault();
+                return _event;
+            }
+        }
+        private List<EventType> GetEventTypes()
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                var types = from t in db.EventTypes
+                            select t;
+                return types.ToList();
+            }
+        }
+        private void SetEventsDataSource()
+        {
+
+            ComboBoxEventType.ItemsSource = GetEventTypes();
+            ComboBoxLineEvent.ItemsSource = GetLines();
+        }
+
 
         #endregion
 
@@ -389,7 +399,6 @@ namespace DitsApp
                 }
             }
         }
-
         private List<EquipmentType> GetEquipmentTypesByClassId(int classId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -400,7 +409,6 @@ namespace DitsApp
                 return equipmentTypes;
             }
         }
-
         private int GetMaintenanceDurationByTypeId(int equipmentTypeId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -411,7 +419,6 @@ namespace DitsApp
                 return duration;
             }
         }
-
         private int GetInstallDurationByTypeId(int equipmentTypeId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -422,7 +429,6 @@ namespace DitsApp
                 return duration;
             }
         }
-
         private List<EquipmentClass> GetEquipmentClasses()
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -432,7 +438,6 @@ namespace DitsApp
                 return equipmentClasses;
             }
         }
-
         private Equipment GetEquipment(int equipmentId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -443,7 +448,6 @@ namespace DitsApp
                 return equipment;
             }
         }
-
         private EquipmentStatus GetCurrentStatus(Equipment equipment)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -455,13 +459,11 @@ namespace DitsApp
 
             }
         }
-
         private void SetEquipmentStatus(Equipment equipment, EquipmentStatus newEquipmentStatus)
         {
             EquipmentStatus currentStatus = GetCurrentStatus(equipment);
             currentStatus.Status = 0;
         }
-
         private List<EquipmentStatus> GetStatusList(Equipment equipment)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -474,7 +476,6 @@ namespace DitsApp
 
             }
         }
-
         private List<Line> GetLines()
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -484,7 +485,6 @@ namespace DitsApp
                 return line.ToList();
             }
         }
-
         private List<Station> GetStationsList(int lineId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -495,7 +495,6 @@ namespace DitsApp
                 return station.ToList();
             }
         }
-
         private List<Location> GetLocationList(int stationId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -506,7 +505,6 @@ namespace DitsApp
                 return locations.ToList();
             }
         }
-
         private List<Point> GetPointList(int locationId)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -517,7 +515,6 @@ namespace DitsApp
                 return points.ToList();
             }
         }
-
         private void RefreshItemsSources()
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -530,7 +527,6 @@ namespace DitsApp
                 EditLineComboBox.ItemsSource = GetLines();
             }
         }
-
         private void RefreshEquipmentForms()
         {
             EditEquipClassComboBox.SelectedIndex = -1;
@@ -544,7 +540,6 @@ namespace DitsApp
             EditInstallDatePicker.SelectedDate = null;
             EditEmployeeComboBox.SelectedIndex = -1;
         }
-
         private void AddEquipClassComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (AddEquipClassComboBox != null)
@@ -555,7 +550,6 @@ namespace DitsApp
             }
 
         }
-
         private void AddEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
             using (ditsappdbContext db = new ditsappdbContext())
@@ -597,12 +591,10 @@ namespace DitsApp
                 RefreshEquipmentForms();
             }
         }
-
         private void AddEquipTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _selectedTypeId = (int)AddEquipTypeComboBox.SelectedValue;
         }
-
         private void DataGridEquipment_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -611,8 +603,6 @@ namespace DitsApp
             var window = new EquipmentCard(selectedEquipmentId);
             window.Show();
         }
-
-
         //selection changed
         private void DataGridEquipment_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
@@ -691,7 +681,6 @@ namespace DitsApp
 
             }
         }
-
         private void EditEquipClassComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (EditEquipClassComboBox.SelectedValue != null)
@@ -741,15 +730,6 @@ namespace DitsApp
             }
 
         }
-
-        #endregion
-
-        private void Menu_Lines_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new LineCard();
-            window.Show();
-        }
-
         private void EditEquipmentButton_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedEquipmentId > 0)
@@ -778,7 +758,6 @@ namespace DitsApp
                 }
             }
         }
-
         private void ButtonGoToRepair_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedEquipmentId > 0)
@@ -789,7 +768,7 @@ namespace DitsApp
                     EquipmentStatus currentStatus = GetCurrentStatus(selectedEquipment);
 
                     currentStatus.PointId = 14;
-                    currentStatus.ChangeDate= DateTime.Now;
+                    currentStatus.ChangeDate = DateTime.Now;
                     currentStatus.StatusType = "Сдача в ремонт";
                     db.EquipmentStatuses.Update(currentStatus);
                     db.SaveChanges();
@@ -801,16 +780,75 @@ namespace DitsApp
 
         }
 
+        #endregion
+
+        private void Menu_Lines_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new LineCard();
+            window.Show();
+        }
 
 
 
+        private void DataGridEvents_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            if (dataGrid != null && dataGrid.SelectedValue != null)
+            {
+                _selectedEventId = (int)dataGrid.SelectedValue;
 
-        //не доделано
+            }
+        }
 
+        private void ComboBoxLineEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxLineEvent.SelectedValue != null)
+            {
+                _selectedLineId_Event = (int)ComboBoxLineEvent.SelectedValue;
+                ComboBoxStationEvent.ItemsSource = GetStationsList(_selectedLineId_Event);
+
+            }
+        }
+        private void ComboBoxStationEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxStationEvent.SelectedValue != null && _selectedLineId_Event > 0)
+            {
+                _selectedStationId_Event = (int)ComboBoxStationEvent.SelectedValue;
+                ComboBoxLocationEvent.ItemsSource = GetLocationList(_selectedStationId_Event);
+            }
+
+        }
+
+        private void ComboBoxLocationEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxLocationEvent.SelectedValue != null && _selectedStationId_Event > 0)
+            {
+                _selectedLocationId_Event = (int)ComboBoxLocationEvent.SelectedValue;
+                ComboBoxPointEvent.ItemsSource = GetPointList(_selectedLocationId_Event);
+            }
+        }
+
+        private void AddEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (ditsappdbContext db = new ditsappdbContext())
+            {
+                Event newEvent = new Event
+                {
+                    TypeId = (int)ComboBoxEventType.SelectedValue,
+                    StationId = (int)ComboBoxStationEvent.SelectedValue,
+                    LocationId = (int)ComboBoxLocationEvent.SelectedValue,
+                    Status = 1,
+                    CreateDate = DatePickerEvent.DisplayDate,
+                    Comment = CommentTextBoxEvent.Text
+                };
+                db.Events.Add(newEvent);
+                db.SaveChanges();
+                GetEventsInfo(true);
+                
+            }
+
+        }
     }
-
-
-
 }
 
 

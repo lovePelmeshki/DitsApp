@@ -27,13 +27,11 @@
                 <Separator></Separator>
                 <MenuItem Header="Отдел"></MenuItem>
                 <MenuItem Header="Работник"></MenuItem>
-                
+
             </MenuItem>
 
         </Menu>
-        
         <TabControl>
-
             <!--Employees-->
             <TabItem Header="Employees" Width="120" Height="40">
                 <ScrollViewer>
@@ -198,38 +196,68 @@
 
             <!--Events-->
             <TabItem Header="Events" Width="120" Height="40">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <DataGrid x:Name="DataGridEvents" Grid.Row="0"
-                          MouseDoubleClick="DataGridEvents_MouseDoubleClick"
+                <StackPanel>
+                    <Label Content="Текущие заявки"></Label>
+                    <DataGrid x:Name="DataGridEvents"
+                         
+                          SelectedCellsChanged="DataGridEvents_SelectedCellsChanged"
                           SelectionMode="Single"
                           SelectionUnit="FullRow"
                           SelectedValuePath="Id"
-                         >
+                              MaxHeight="200"
+                              Margin="10,0,10,10">
                     </DataGrid>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal"
-                            Margin="10" HorizontalAlignment="Center">
-                        <Button x:Name="AddNewEventButton" Grid.Row="1"
-                        Width="120" Height="40"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Content="Add New Event" Click="AddNewEventButton_Click"/>
-
-                        <Button x:Name="RefreshButton" Grid.Row="1"
-                            Margin="10"
-                        Width="120" Height="40"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Content="Refresh" Click="RefreshButton_Click" 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <GroupBox Header="Добавить" Width="300" Margin="10">
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Тип"/>
+                                <ComboBox x:Name="ComboBoxEventType" SelectedValuePath="Id" DisplayMemberPath="TypeName"/>
+                                <Label Content="Линия"/>
+                                <ComboBox Name="ComboBoxLineEvent" SelectedValuePath="Id" DisplayMemberPath="LineName" SelectionChanged="ComboBoxLineEvent_SelectionChanged"/> 
+                                <Label Content="Станция"/>
+                                <ComboBox Name="ComboBoxStationEvent" SelectedValuePath="Id" DisplayMemberPath="StationName" SelectionChanged="ComboBoxStationEvent_SelectionChanged"/> 
+                                <Label Content="Локация"/>
+                                <ComboBox Name="ComboBoxLocationEvent" SelectedValuePath="Id" DisplayMemberPath="LocationName" SelectionChanged="ComboBoxLocationEvent_SelectionChanged" /> 
+                                <Label Content="Точка"/>
+                                <ComboBox Name="ComboBoxPointEvent" SelectedValuePath="Id" DisplayMemberPath="PointName"/>
+                                <Label Content="Дата"/>
+                                <DatePicker Name="DatePickerEvent"/>
+                                <Label Content="Комментарий"/>
+                                <TextBox Name="CommentTextBoxEvent" MinHeight="30"/>
+                                <Button Name="AddEventButton" Content="Открыть заявку" Click="AddEventButton_Click"/>
+                            </StackPanel>
+                        </GroupBox>
                         
-                        />
-                    </StackPanel>
+                        <GroupBox Header="Редактировать" Width="300" Margin="10" >
+                            <StackPanel Orientation="Vertical">
+                               
+                                <Label Content="Участок"/>
+                                <ComboBox Name="DepartmentEventComboBox" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                                <Label Content="Работник"/>
+                                <ComboBox Name="EmployeeEventComboBox" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                                <Label Content="Статус"/>
+                                <ComboBox Name="StatusEventComboBox" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                                
+                                <Label Content="Дата приема заявки"/>
+                                <DatePicker Name="OpenEventDatePicker"/>
+                                <Label Content="Дата закрытия заявки"/>
+                                <DatePicker Name="CloseEventDatePicker"/>
+                                <Label Content="Комментарий"/>
+                                <TextBox Name="CommentEditEvent" MinHeight="30"/>
+                                <Button Name="EditEventButton" Content="Редактировать"/>
 
-                </Grid>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <Label Content="Закрытые заявки"/>
+                    <DataGrid Name="DataGridClosedEvents"  MaxHeight="100"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              SelectedValuePath="Id"
+                              Margin="10,0,10,10"/>
+                </StackPanel>
+
 
             </TabItem>
 
